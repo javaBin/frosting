@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import {useAsyncData} from "#app";
+
 const props = defineProps<{
   conference: Conference
 }>()
@@ -6,13 +8,18 @@ const props = defineProps<{
 const {
   data: sessions,
   status
-} = await useLazyFetch<Session[]>(`http://localhost:8080/api/conferences/${props.conference.id}/sessions`)
+} = await useLazyAsyncData<Session[]>(`Conference - ${props.conference.id}`, () => $fetch(`http://localhost:8080/api/conferences/${props.conference.id}/sessions`), {
+  watch: [props]
+})
 
 const headers = [
+  {title: "Speaker", key: "speakers"},
   {title: "Title", key: "title"},
-  {title: "Abstract", key: "abstract"},
   {title: "Format", key: "format"},
   {title: "Status", key: "status"},
+  {title: "Language", key: "language"},
+  {title: "Length", key: "length"},
+  {title: "Location", key: "location", value: "speakers"},
 ]
 
 const search = ref('')
@@ -39,8 +46,24 @@ const search = ref('')
         v-if="status === 'pending'"
     ></v-progress-circular>
 
-    <v-data-table v-if="status === 'success'" :items="sessions" :headers="headers" density="comfortable" :search="search"
-                  items-per-page="100">
+    <v-data-table
+        v-if="status === 'success'"
+        :items="sessions"
+        :headers="headers"
+        density="compact"
+        :search="search"
+        items-per-page="100">
+      <template v-slot:[`item.speakers`]="{ value }">
+        <v-list lines="two" density="compact">
+          <v-list-item v-for="(speaker, index) in value" :idx="index" :title="speaker.name" :subtitle="speaker.email"/>
+        </v-list>
+      </template>
+      <template v-slot:[`item.location`]="{ value }">
+        <v-list lines="two" density="compact">
+          <v-list-item v-for="(speaker, index) in value" :idx="index" :title="speaker.postcode"
+                       :subtitle="speaker.location"/>
+        </v-list>
+      </template>
     </v-data-table>
   </v-container>
 </template>
