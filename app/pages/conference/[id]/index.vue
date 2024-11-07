@@ -1,16 +1,19 @@
 <script setup lang="ts">
-import {useAsyncData} from "#app";
+import {useConferences} from "~/coomposables/conferences";
 
-const props = defineProps<{
-  conference: Conference
-}>()
+const route = useRoute()
+
+const { findConference } = useConferences()
+
+const {
+  data: conferences,
+  status: conferenceStatus
+} = await useFetch<Conference[]>(`http://localhost:8080/api/conferences`)
 
 const {
   data: sessions,
   status
-} = await useLazyAsyncData<Session[]>(`Conference - ${props.conference.id}`, () => $fetch(`http://localhost:8080/api/conferences/${props.conference.id}/sessions`), {
-  watch: [props]
-})
+} = await useLazyFetch<Session[]>(`http://localhost:8080/api/conferences/${route.params.id}/sessions`)
 
 const headers = [
   {title: "Speaker", key: "speakers"},
@@ -23,12 +26,24 @@ const headers = [
 ]
 
 const search = ref('')
+
+const conferenceTitle = computed(() => {
+  if (conferenceStatus.value === "success") {
+    const conf = findConference(route.params.id, conferences.value)
+
+    if (conf !== undefined) {
+      return conf.name;
+    }
+  }
+
+  return "Javazone";
+})
 </script>
 
 <template>
   <v-container>
-    <h1>{{ props.conference.name }}</h1>
 
+    <h1>{{ conferenceTitle }}</h1>
     <v-text-field
         v-model="search"
         label="Search"

@@ -1,29 +1,11 @@
 <script setup lang="ts">
-
-const emit = defineEmits<{
-  selectConference: [value: Conference]
-}>()
+import {useConferences} from "~/coomposables/conferences";
 
 const {
   data: conferences
 } = await useFetch<Conference[]>(`http://localhost:8080/api/conferences`)
 
-const selected = ref<Conference | undefined>()
-
-const menuTitle = computed(() => {
-  if (selected.value === undefined) {
-    return "Select conference";
-  }
-
-  return selected.value.name
-})
-
-const chooseConference = (conference: Conference) => {
-  selected.value = conference;
-
-  emit('selectConference', conference)
-}
-
+const { conferenceLink } = useConferences()
 </script>
 
 <template>
@@ -40,21 +22,24 @@ const chooseConference = (conference: Conference) => {
             color="primary"
             v-bind="props"
         >
-          {{ menuTitle }}
+          Select Conference
         </v-btn>
       </template>
       <v-list>
         <v-list-item
             v-for="(item, index) in conferences"
             :key="index"
-            :value="index"
         >
-          <v-list-item-title @click="chooseConference(item)">{{ item.name }}</v-list-item-title>
+          <v-list-item-title>
+            <v-btn flat :to="conferenceLink(item)">
+              {{ item.name }}
+            </v-btn>
+          </v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
 
-    <v-spacer />
+    <v-spacer/>
 
     <NavThemeToggle/>
   </v-toolbar>
