@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {useTheme} from 'vuetify'
+import {Icon} from "@iconify/vue";
 
 const theme = useTheme()
 
@@ -10,6 +11,6 @@ function toggleTheme() {
 
 <template>
   <v-btn @click="toggleTheme">
-    <v-icon>mdi-theme-light-dark</v-icon>
-  </v-btn>
+    <Icon icon="mdi:theme-light-dark"/>
+ </v-btn>
 </template>

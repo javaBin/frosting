@@ -11,9 +11,17 @@ export const useConferences = () => {
         })
     }
 
+    const conferenceTitle = (conference?: Conference) => {
+        if (conference !== undefined) {
+            return conference.name;
+        }
+
+        return "Javazone";
+    }
 
     return {
         conferenceLink,
+        conferenceTitle,
         findConference
     }
 }

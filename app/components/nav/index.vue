@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import {useConferences} from "~/coomposables/conferences";
-
 const {
   data: conferences
 } = await useFetch<Conference[]>(`http://localhost:8080/api/conferences`)

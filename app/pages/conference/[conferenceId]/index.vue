@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import {useConferences} from "~/coomposables/conferences";
-
 const route = useRoute()
 
-const { findConference } = useConferences()
+const { findConference, conferenceTitle } = useConferences()
+const { sessionLink } = useSessions()
 
 const {
   data: conferences,
@@ -13,37 +12,34 @@ const {
 const {
   data: sessions,
   status
-} = await useLazyFetch<Session[]>(`http://localhost:8080/api/conferences/${route.params.id}/sessions`)
+} = await useLazyFetch<Session[]>(`http://localhost:8080/api/conferences/${route.params.conferenceId}/sessions`)
 
 const headers = [
   {title: "Speaker", key: "speakers"},
   {title: "Title", key: "title"},
-  {title: "Format", key: "format"},
-  {title: "Status", key: "status"},
-  {title: "Language", key: "language"},
+  {title: "Format", key: "format", filterable: false, align: "center"},
+  {title: "Status", key: "status", filterable: false, align: "center"},
+  {title: "Language", key: "language", filterable: false, align: "center"},
   {title: "Length", key: "length"},
   {title: "Location", key: "location", value: "speakers"},
+  {title: "", key: "id", filterable: false, sortable: false, align: "center"}
 ]
 
 const search = ref('')
 
-const conferenceTitle = computed(() => {
+const conference = computed(() => {
   if (conferenceStatus.value === "success") {
-    const conf = findConference(route.params.id, conferences.value)
-
-    if (conf !== undefined) {
-      return conf.name;
-    }
+    return findConference(route.params.conferenceId, conferences.value)
   }
-
-  return "Javazone";
 })
+
 </script>
 
 <template>
   <v-container>
 
-    <h1>{{ conferenceTitle }}</h1>
+    <h1 v-if="conference">{{ conferenceTitle(conference) }}</h1>
+
     <v-text-field
         v-model="search"
         label="Search"
@@ -59,10 +55,10 @@ const conferenceTitle = computed(() => {
         indeterminate
         class="ma-16"
         v-if="status === 'pending'"
-    ></v-progress-circular>
+    />
 
     <v-data-table
-        v-if="status === 'success'"
+        v-if="status === 'success' && conferenceStatus === 'success'"
         :items="sessions"
         :headers="headers"
         density="compact"
@@ -78,6 +74,18 @@ const conferenceTitle = computed(() => {
           <v-list-item v-for="(speaker, index) in value" :idx="index" :title="speaker.postcode"
                        :subtitle="speaker.location"/>
         </v-list>
+      </template>
+      <template v-slot:[`item.id`]="{ value }">
+        <v-btn v-if="value" :to="sessionLink(conference, value)"><v-icon>mdi-file-document-outline</v-icon></v-btn>
+      </template>
+      <template v-slot:[`item.status`]="{ value }">
+        <IconStatus :status="value" />
+      </template>
+      <template v-slot:[`item.format`]="{ value }">
+        <IconFormat :format="value" />
+      </template>
+      <template v-slot:[`item.language`]="{ value }">
+        <IconLanguage :language="value" />
       </template>
     </v-data-table>
   </v-container>
