@@ -1,5 +1,9 @@
 <script setup lang="ts">
 
+const emit = defineEmits<{
+  selectConference: [value: Conference]
+}>()
+
 const {
   data: conferences
 } = await useFetch<Conference[]>(`http://localhost:8080/api/conferences`)
@@ -16,6 +20,8 @@ const menuTitle = computed(() => {
 
 const chooseConference = (conference: Conference) => {
   selected.value = conference;
+
+  emit('selectConference', conference)
 }
 
 </script>
