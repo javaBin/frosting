@@ -48,10 +48,13 @@ const sessionLength = computed(() => {
       <h2 class="my-2">
         {{ session.title }}
         <span v-if="sessionLength"> ({{ sessionLength }})</span>
-        <IconFormat :format="session.format"/>
-        <IconStatus :status="session.status"/>
-        <IconLanguage :language="session.language"/>
       </h2>
+
+      <div>
+        <IconFormat :format="session.format" full/>
+        <IconStatus :status="session.status" full/>
+        <IconLanguage :language="session.language" full/>
+      </div>
 
       <div class="my-2">
         {{ session.abstract }}
@@ -70,6 +73,8 @@ const sessionLength = computed(() => {
               <v-list-item v-if="speaker.email" title="E-mail" :subtitle="speaker.email" />
               <v-list-item v-if="speaker.postcode" title="Postcode" :subtitle="speaker.postcode" />
               <v-list-item v-if="speaker.location" title="Location" :subtitle="speaker.location" />
+              <v-list-item v-if="speaker.city" title="City" :subtitle="speaker.city" />
+              <v-list-item v-if="speaker.county" title="County" :subtitle="speaker.county" />
             </v-list>
           </v-card-actions>
         </v-card>

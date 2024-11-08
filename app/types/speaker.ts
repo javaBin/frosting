@@ -4,4 +4,6 @@ declare interface Speaker {
     bio?: string;
     postcode?: string;
     location?: string;
+    city?: string;
+    county?: string;
 }

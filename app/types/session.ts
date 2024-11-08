@@ -6,6 +6,5 @@ declare interface Session {
     status: string;
     language: string;
     length?: number;
-    postcode: string;
     speakers: Speaker[];
 }

@@ -2,31 +2,16 @@
 import {Icon} from "@iconify/vue";
 
 const props = defineProps<{
-  format: string
+  format: string,
+  full?: boolean
 }>()
 </script>
 
 <template>
   <span class="px-2">
-    <v-tooltip v-if="props.format === 'LIGHTNING_TALK'" text="Lightning Talk">
-      <template v-slot:activator="{ props }">
-        <Icon v-bind="props" icon="carbon:lightning"/>
-      </template>
-    </v-tooltip>
-    <v-tooltip v-if="props.format === 'WORKSHOP'" text="Workshop">
-      <template v-slot:activator="{ props }">
-        <Icon v-bind="props" icon="carbon:laptop"/>
-      </template>
-    </v-tooltip>
-    <v-tooltip v-if="props.format === 'PRESENTATION'" text="Presentation">
-      <template v-slot:activator="{ props }">
-        <Icon v-bind="props" icon="carbon:group-presentation"/>
-      </template>
-    </v-tooltip>
-    <v-tooltip v-if="props.format === 'PANEL'" text="Panel Debate">
-      <template v-slot:activator="{ props }">
-        <Icon v-bind="props" icon="carbon:forum"/>
-      </template>
-    </v-tooltip>
+    <IconTooltip :value="props.format" select="LIGHTNING_TALK" description="Lightning Talk" icon="carbon:lightning" :full="props.full" />
+    <IconTooltip :value="props.format" select="WORKSHOP" description="Workshop" icon="carbon:laptop" :full="props.full" />
+    <IconTooltip :value="props.format" select="PRESENTATION" description="Presentation" icon="carbon:group-presentation" :full="props.full" />
+    <IconTooltip :value="props.format" select="PANEL" description="Panel Debate" icon="carbon:forum" :full="props.full" />
   </span>
 </template>

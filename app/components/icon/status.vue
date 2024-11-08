@@ -2,36 +2,17 @@
 import {Icon} from "@iconify/vue";
 
 const props = defineProps<{
-  status: string
+  status: string,
+  full?: boolean
 }>()
 </script>
 
 <template>
   <span class="px-2">
-    <v-tooltip  v-if="props.status === 'APPROVED'" text="Approved">
-      <template v-slot:activator="{ props }">
-        <Icon v-bind="props" icon="carbon:task-approved" />
-      </template>
-    </v-tooltip>
-    <v-tooltip  v-if="props.status === 'SUBMITTED'" text="Submitted">
-      <template v-slot:activator="{ props }">
-        <Icon v-bind="props" icon="carbon:task-view" />
-      </template>
-    </v-tooltip>
-    <v-tooltip  v-if="props.status === 'REJECTED'" text="Rejected">
-      <template v-slot:activator="{ props }">
-        <Icon v-bind="props" icon="carbon:task-remove" />
-      </template>
-    </v-tooltip>
-    <v-tooltip  v-if="props.status === 'HISTORIC'" text="Historic">
-      <template v-slot:activator="{ props }">
-        <Icon v-bind="props" icon="carbon:task-asset-view" />
-      </template>
-    </v-tooltip>
-    <v-tooltip  v-if="props.status === 'Draft'" text="Draft">
-      <template v-slot:activator="{ props }">
-        <Icon v-bind="props" icon="carbon:task-add" />
-      </template>
-    </v-tooltip>
+    <IconTooltip :value="props.status" select="APPROVED" description="Approved" icon="carbon:task-approved" :full="props.full" />
+    <IconTooltip :value="props.status" select="SUBMITTED" description="Submitted" icon="carbon:task-view" :full="props.full" />
+    <IconTooltip :value="props.status" select="REJECTED" description="Rejected" icon="carbon:task-remove" :full="props.full" />
+    <IconTooltip :value="props.status" select="HISTORIC" description="Historic" icon="carbon:task-asset-view" :full="props.full" />
+    <IconTooltip :value="props.status" select="DRAFT" description="Draft" icon="carbon:task-add" :full="props.full" />
   </span>
 </template>

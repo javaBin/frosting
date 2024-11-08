@@ -3,6 +3,7 @@ import {Icon} from "@iconify/vue";
 
 const props = defineProps<{
   title: string,
+  value?: string,
   icon: string
 }>()
 
@@ -11,7 +12,7 @@ const emit = defineEmits<{
 }>()
 
 const click = (() => {
-  emit('select', props.title)
+  emit('select', props.value ?? props.title)
 })
 </script>
 

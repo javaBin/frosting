@@ -2,21 +2,14 @@
 import {Icon} from "@iconify/vue";
 
 const props = defineProps<{
-  language: string
+  language: string,
+  full?: boolean
 }>()
 </script>
 
 <template>
   <span class="px-2">
-    <v-tooltip  v-if="props.language === 'ENGLISH'" text="English">
-      <template v-slot:activator="{ props }">
-        <Icon v-bind="props" icon="openmoji:flag-united-kingdom" />
-      </template>
-    </v-tooltip>
-    <v-tooltip  v-if="props.language === 'NORWEGIAN'" text="Norwegian">
-      <template v-slot:activator="{ props }">
-        <Icon v-bind="props" icon="openmoji:flag-norway" />
-      </template>
-    </v-tooltip>
+    <IconTooltip :value="props.language" select="ENGLISH" description="English" icon="openmoji:flag-united-kingdom" :full="props.full" />
+    <IconTooltip :value="props.language" select="NORWEGIAN" description="Norwegian" icon="openmoji:flag-norway" :full="props.full" />
   </span>
 </template>
