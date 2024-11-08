@@ -7,5 +7,12 @@ export default defineNuxtConfig({
     },
     ssr: false,
     devtools: {enabled: true},
-    modules: ['vuetify-nuxt-module']
+    modules: ['vuetify-nuxt-module'],
+    vuetify: {
+        vuetifyOptions: {
+            theme: {
+                defaultTheme: 'dark'
+            }
+        }
+    }
 })
