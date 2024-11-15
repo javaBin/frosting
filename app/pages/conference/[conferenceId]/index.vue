@@ -9,12 +9,12 @@ const {sessionLink} = useSessions()
 const {
   data: conferences,
   status: conferenceStatus
-} = await useFetch<Conference[]>(`http://localhost:8080/api/conferences`)
+} = await useFetch<Conference[]>(`/api/conferences`)
 
 const {
   data: sessions,
   status
-} = await useLazyFetch<Session[]>(`http://localhost:8080/api/conferences/${route.params.conferenceId}/sessions`)
+} = await useLazyFetch<Session[]>(`/api/conferences/${route.params.conferenceId}/sessions`)
 
 const headers = [
   {title: "Speaker", key: "speakers"},
