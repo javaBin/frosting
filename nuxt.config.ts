@@ -5,26 +5,25 @@ const routeRulesProxy = () => {
         host = 'http://127.0.0.1:8080'
     }
 
-
-        return {
-            '/api/**': {
-                proxy: {
-                    to: '/api/**'
-                }
-            },
-            '/login': {
-                proxy: {
-                    to: '/login',
-                    fetchOptions: { redirect: 'manual' }
-                }
-            },
-            '/slackCallback': {
-                proxy: {
-                    to: '/slackCallback',
-                    fetchOptions: { redirect: 'manual' }
-                }
+    return {
+        '/api/**': {
+            proxy: {
+                to: `${host}/api/**`
+            }
+        },
+        '/login': {
+            proxy: {
+                to: `${host}/login`,
+                fetchOptions: {redirect: 'manual'}
+            }
+        },
+        '/slackCallback': {
+            proxy: {
+                to: `${host}/slackCallback`,
+                fetchOptions: {redirect: 'manual'}
             }
         }
+    }
 }
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
