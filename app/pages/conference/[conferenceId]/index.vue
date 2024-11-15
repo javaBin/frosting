@@ -1,20 +1,30 @@
 <script setup lang="ts">
-import {Icon} from "@iconify/vue";
-
 const route = useRoute()
 
 const {findConference, conferenceTitle} = useConferences()
 const {sessionLink} = useSessions()
 
+const user = useCookie('user_session', {
+  readonly: true
+})
+
+const opts: UseFetchOptions = {}
+
+if (user.value !== undefined) {
+  opts['headers'] = {
+    authorization: `Bearer ${user.value}`,
+  }
+}
+
 const {
   data: conferences,
   status: conferenceStatus
-} = await useFetch<Conference[]>(`/api/conferences`)
+} = await useFetch<Conference[]>(`/api/conferences`, opts)
 
 const {
   data: sessions,
   status
-} = await useLazyFetch<Session[]>(`/api/conferences/${route.params.conferenceId}/sessions`)
+} = await useLazyFetch<Session[]>(`/api/conferences/${route.params.conferenceId}/sessions`, opts)
 
 const headers = [
   {title: "Speaker", key: "speakers"},

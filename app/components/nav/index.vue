@@ -1,7 +1,19 @@
 <script setup lang="ts">
+const user = useCookie('user_session', {
+  readonly: true
+})
+
+const opts: UseFetchOptions = {}
+
+if (user.value !== undefined) {
+  opts['headers'] = {
+    authorization: `Bearer ${user.value}`,
+  }
+}
+
 const {
   data: conferences
-} = await useFetch<Conference[]>(`/api/conferences`)
+} = await useFetch<Conference[]>(`/api/conferences`, opts)
 
 const { conferenceLink } = useConferences()
 </script>

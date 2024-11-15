@@ -4,15 +4,27 @@ const route = useRoute()
 const {findConference, conferenceTitle, conferenceLink} = useConferences()
 const {findSession, duration} = useSessions()
 
+const user = useCookie('user_session', {
+  readonly: true
+})
+
+const opts: UseFetchOptions = {}
+
+if (user.value !== undefined) {
+  opts['headers'] = {
+    authorization: `Bearer ${user.value}`,
+  }
+}
+
 const {
   data: conferences,
   status: conferenceStatus
-} = await useFetch<Conference[]>(`/api/conferences`)
+} = await useFetch<Conference[]>(`/api/conferences`, opts)
 
 const {
   data: sessions,
   status
-} = await useLazyFetch<Session[]>(`/api/conferences/${route.params.conferenceId}/sessions`)
+} = await useLazyFetch<Session[]>(`/api/conferences/${route.params.conferenceId}/sessions`, opts)
 
 const conference = computed(() => {
   if (conferenceStatus.value === "success") {
