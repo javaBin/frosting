@@ -1,29 +1,31 @@
 const routeRulesProxy = () => {
+    let host = 'https://cupcake-backend.java.no' // TBD
+
     if (process.env.NODE_ENV === 'development') {
+        host = 'http://127.0.0.1:8080'
+    }
+
+
         return {
             '/api/**': {
                 proxy: {
-                    to: 'http://127.0.0.1:8080/api/**'
+                    to: '/api/**'
                 }
             },
             '/login': {
                 proxy: {
-                    to: 'http://127.0.0.1:8080/login',
+                    to: '/login',
                     fetchOptions: { redirect: 'manual' }
                 }
             },
             '/slackCallback': {
                 proxy: {
-                    to: 'http://127.0.0.1:8080/slackCallback',
+                    to: '/slackCallback',
                     fetchOptions: { redirect: 'manual' }
                 }
             }
         }
-    } else {
-        return {}
-    }
 }
-
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({

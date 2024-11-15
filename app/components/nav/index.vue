@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const {
   data: conferences
-} = await useFetch<Conference[]>(`http://localhost:8080/api/conferences`)
+} = await useFetch<Conference[]>(`/api/conferences`)
 
 const { conferenceLink } = useConferences()
 </script>
