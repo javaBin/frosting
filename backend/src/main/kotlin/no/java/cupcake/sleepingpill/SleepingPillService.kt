@@ -19,11 +19,13 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
 import kotlinx.coroutines.future.asCompletableFuture
 import kotlinx.coroutines.future.await
+import kotlinx.coroutines.runBlocking
 import no.java.cupcake.api.ApiError
 import no.java.cupcake.api.ErrorResponse
 import no.java.cupcake.api.SleepingPillCallFailed
 import no.java.cupcake.bring.BringService
 import java.time.Duration
+import java.time.Year
 
 private val logger = KotlinLogging.logger {}
 
@@ -36,37 +38,45 @@ class SleepingPillService(
     private val bringService: BringService,
     cacheTimeoutSeconds: Long,
     private val cacheScope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO),
+    private val maxPastYears: Long,
+    private val includeCurrentYear: Boolean,
 ) {
-    private val ttl: Duration =
-        if (cacheTimeoutSeconds <= 0) Duration.ZERO else Duration.ofSeconds(cacheTimeoutSeconds)
+    private val ttl: Duration = if (cacheTimeoutSeconds <= 0) Duration.ZERO else Duration.ofSeconds(cacheTimeoutSeconds)
 
     private val conferencesCache: AsyncLoadingCache<String, List<Conference>> =
-        Caffeine
-            .newBuilder()
-            .apply { if (!ttl.isZero) expireAfterWrite(ttl) }
-            .buildAsync { _, _ ->
-                cacheScope
-                    .async {
-                        uncachedConferencesEither().fold(
-                            ifLeft = { throw ApiErrorException(it) },
-                            ifRight = { it },
-                        )
-                    }.asCompletableFuture()
-            }
+        Caffeine.newBuilder().apply { if (!ttl.isZero) expireAfterWrite(ttl) }.buildAsync { _, _ ->
+            cacheScope
+                .async {
+                    uncachedConferencesEither().fold(
+                        ifLeft = { throw ApiErrorException(it) },
+                        ifRight = { it },
+                    )
+                }.asCompletableFuture()
+        }
 
     private val sessionsCache: AsyncLoadingCache<ConferenceId, List<Session>> =
-        Caffeine
-            .newBuilder()
-            .apply { if (!ttl.isZero) expireAfterWrite(ttl) }
-            .buildAsync { id, _ ->
-                cacheScope
-                    .async {
-                        uncachedSessionsEither(id).fold(
-                            ifLeft = { throw ApiErrorException(it) },
-                            ifRight = { it },
-                        )
-                    }.asCompletableFuture()
+        Caffeine.newBuilder().apply { if (!ttl.isZero) expireAfterWrite(ttl) }.buildAsync { id, _ ->
+            cacheScope
+                .async {
+                    uncachedSessionsEither(id).fold(
+                        ifLeft = { throw ApiErrorException(it) },
+                        ifRight = { it },
+                    )
+                }.asCompletableFuture()
+        }
+
+    init {
+        runBlocking {
+            either {
+                val conferences = conferences()
+                conferences.forEach { conference ->
+                    sessions(ConferenceId(conference.id).bind())
+                }
+            }.onLeft { error ->
+                logger.warn { "Failed to initialize conferences cache: $error" }
             }
+        }
+    }
 
     private suspend fun uncachedConferencesEither(): Either<ApiError, List<Conference>> =
         either {
@@ -76,7 +86,10 @@ class SleepingPillService(
                 .body<SleepingPillConferences>()
                 .conferences
                 .filterNot { rejectSlugs.contains(it.slug) }
-                .map {
+                .filter {
+                    val now = Year.now()
+                    it.year.isAfter(now.minusYears(maxPastYears + 1)) && (includeCurrentYear || it.year.isBefore(now))
+                }.map {
                     Conference(
                         name = it.name,
                         slug = it.slug,

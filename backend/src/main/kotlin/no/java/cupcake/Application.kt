@@ -66,6 +66,8 @@ private fun Application.sleepingPillService(bringService: BringService): Sleepin
         client = sleepingPillClient(config),
         bringService = bringService,
         cacheTimeoutSeconds = config.cacheTtlSeconds,
+        maxPastYears = config.maxPastYears,
+        includeCurrentYear = config.includeCurrentYear,
     )
 }
 

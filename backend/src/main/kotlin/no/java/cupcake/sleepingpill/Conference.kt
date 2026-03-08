@@ -4,6 +4,7 @@ import arrow.core.raise.either
 import arrow.core.raise.ensure
 import kotlinx.serialization.Serializable
 import no.java.cupcake.api.ConferenceIdRequired
+import java.time.Year
 
 @Serializable
 data class Conference(
@@ -18,7 +19,9 @@ data class SleepingPillConference(
     val slug: String,
     val id: String,
     val slottimes: String?,
-)
+) {
+    val year: Year get() = Year.of(name.substringAfterLast(" ").toInt())
+}
 
 @Serializable
 data class SleepingPillConferences(

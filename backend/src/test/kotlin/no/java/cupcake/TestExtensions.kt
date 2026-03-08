@@ -101,6 +101,8 @@ fun buildSleepingPillService(
         client = client ?: buildClient(buildMockEngine(fixture, block)),
         bringService = bringService ?: buildBringService(fixture = "/postal_codes.json", postalCodeUrl = "/test"),
         cacheTimeoutSeconds = 10,
+        maxPastYears = 3,
+        includeCurrentYear = true,
     )
 
 fun buildBringService(
