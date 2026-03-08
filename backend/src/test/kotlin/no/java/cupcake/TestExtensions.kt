@@ -95,6 +95,7 @@ fun buildSleepingPillService(
     fixture: String,
     client: HttpClient? = null,
     bringService: BringService? = null,
+    includeCurrentYear: Boolean = false,
     block: (suspend (request: HttpRequestData) -> Unit)? = null,
 ): SleepingPillService =
     SleepingPillService(
@@ -102,7 +103,8 @@ fun buildSleepingPillService(
         bringService = bringService ?: buildBringService(fixture = "/postal_codes.json", postalCodeUrl = "/test"),
         cacheTimeoutSeconds = 10,
         maxPastYears = 3,
-        includeCurrentYear = true,
+        includeCurrentYear = includeCurrentYear,
+        initAtStart = false,
     )
 
 fun buildBringService(

@@ -37,11 +37,12 @@ class SleepingPillService(
     private val client: HttpClient,
     private val bringService: BringService,
     cacheTimeoutSeconds: Long,
-    private val cacheScope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO),
     private val maxPastYears: Long,
     private val includeCurrentYear: Boolean,
+    private val initAtStart: Boolean = false,
 ) {
     private val ttl: Duration = if (cacheTimeoutSeconds <= 0) Duration.ZERO else Duration.ofSeconds(cacheTimeoutSeconds)
+    private val cacheScope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     private val conferencesCache: AsyncLoadingCache<String, List<Conference>> =
         Caffeine.newBuilder().apply { if (!ttl.isZero) expireAfterWrite(ttl) }.buildAsync { _, _ ->
@@ -66,14 +67,16 @@ class SleepingPillService(
         }
 
     init {
-        runBlocking {
-            either {
-                val conferences = conferences()
-                conferences.forEach { conference ->
-                    sessions(ConferenceId(conference.id).bind())
+        if (initAtStart) {
+            runBlocking {
+                either {
+                    val conferences = conferences()
+                    conferences.forEach { conference ->
+                        sessions(ConferenceId(conference.id).bind())
+                    }
+                }.onLeft { error ->
+                    logger.warn { "Failed to initialize conferences cache: $error" }
                 }
-            }.onLeft { error ->
-                logger.warn { "Failed to initialize conferences cache: $error" }
             }
         }
     }

@@ -48,13 +48,13 @@ class RoutingTest :
 
                         val response = body<List<Conference>>()
 
-                        response.size shouldBe 17
+                        response.size shouldBe 3
 
                         val conference2024 = response.first { it.slug == "javazone_2024" }
 
                         conference2024 shouldBe
                             Conference(
-                                name = "Javazone 2024",
+                                name = "JavaZone 2024",
                                 slug = "javazone_2024",
                                 id = "ad82e461-9444-40a4-a9d5-cc4885f9107a",
                             )

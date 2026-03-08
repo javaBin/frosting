@@ -21,13 +21,41 @@ class SleepingPillServiceTest :
 
             val conferenceList = conferences.getOrNull()!!
 
-            conferenceList.size shouldBe 17
+            conferenceList.size shouldBe 3
 
             val conference2024 = conferenceList.first { it.slug == "javazone_2024" }
 
             conference2024 shouldBe
                 Conference(
-                    name = "Javazone 2024",
+                    name = "JavaZone 2024",
+                    slug = "javazone_2024",
+                    id = "ad82e461-9444-40a4-a9d5-cc4885f9107a",
+                )
+
+            rejectSlugs.forEach { slug ->
+                conferenceList.filter { it.slug == slug } shouldBe emptyList()
+            }
+        }
+
+        test("Can fetch conference list with current year") {
+            val service = buildService("/conferences.json", true)
+
+            val conferences =
+                either {
+                    service.conferences()
+                }
+
+            conferences.isRight() shouldBe true
+
+            val conferenceList = conferences.getOrNull()!!
+
+            conferenceList.size shouldBe 4
+
+            val conference2024 = conferenceList.first { it.slug == "javazone_2024" }
+
+            conference2024 shouldBe
+                Conference(
+                    name = "JavaZone 2024",
                     slug = "javazone_2024",
                     id = "ad82e461-9444-40a4-a9d5-cc4885f9107a",
                 )
@@ -87,4 +115,7 @@ class SleepingPillServiceTest :
         }
     })
 
-private fun buildService(fixture: String) = buildSleepingPillService(fixture)
+private fun buildService(
+    fixture: String,
+    includeCurrentYear: Boolean = false,
+) = buildSleepingPillService(fixture, includeCurrentYear = includeCurrentYear)
