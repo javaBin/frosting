@@ -1,10 +1,8 @@
-# syntax=docker/dockerfile:1.22
+# syntax=docker/dockerfile:1.23
 
-FROM --platform=$BUILDPLATFORM node:25-bookworm-slim AS build
+FROM --platform=$BUILDPLATFORM node:25-trixie-slim AS build
 
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+RUN npm install -g pnpm
 
 WORKDIR /app
 
@@ -16,7 +14,7 @@ COPY . .
 
 RUN pnpm run build
 
-FROM node:25-bookworm-slim AS deploy
+FROM node:25-trixie-slim AS deploy
 
 ENV NODE_ENV=production
 
