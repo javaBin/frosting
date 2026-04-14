@@ -1,6 +1,6 @@
 # Frosting
 
-Frontend
+Frontend for [cupcake](https://github.com/javaBin/cupcake)
 
 ## TODO
 
