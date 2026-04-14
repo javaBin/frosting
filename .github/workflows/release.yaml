@@ -20,18 +20,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
 
-      - name: Create release tag from staging cupcake
-        run: |
-          docker buildx imagetools create \
-            --tag ghcr.io/javabin/cupcake:release \
-            ghcr.io/javabin/cupcake:staging
-
-      - name: Create version tag from staging cupcake
-        run: |
-          docker buildx imagetools create \
-            --tag ghcr.io/javabin/cupcake:${{ github.ref_name }} \
-            ghcr.io/javabin/cupcake:staging
-
       - name: Create release tag from staging frosting
         run: |
           docker buildx imagetools create \

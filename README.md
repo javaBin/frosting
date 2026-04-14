@@ -1,91 +1,37 @@
-# Cupcake
+# Frosting
 
-A minimal server providing a read-only version of [cake](https://github.com/javaBin/cake-redux) for javaBin regions to
-be able to find possible speakers for local talks.
+Frontend
 
-For frontend - see [frosting](./frontend)
+## TODO
+
+Always lots to do - but - before we can release this:
+
+- Some tests would be nice :)
 
 ## Build
 
-Gradle application using ktor.
+Nuxt application using pnpm
+
+    pnpm install
 
 ## Local running
 
-You will require env variables:
+    pnpm dev
 
-    SP_BASE_URL=https://sleepingpill.javazone.no
-    SP_USER=<username>
-    SP_PASSWORD=<password>
-    BRING_API_KEY=<key>
-    BRING_API_USER=<e-mail>
-    OIDC_WELL_KNOWN_URL=<OIDC discovery endpoint URL, e.g. https://auth.example.com/realms/myrealm/.well-known/openid-configuration>
-    OIDC_EXPECTED_AZP=<expected client ID - defaults to "cupcake-client">
-    JWT_ENABLED=true/false
+## Preview build
 
-The frontend OIDC authority and client ID can be overridden via `NUXT_PUBLIC_OIDC_AUTHORITY` and
-`NUXT_PUBLIC_OIDC_CLIENT_ID` (see [frontend README](./frontend/README.md)). They default to the
-development Keycloak realm and client, so no change is needed for local dev against that environment.
-
-If you are not running with auth (`JWT_ENABLED=false`) then localhost is fine.
-
-## Local running with docker compose
-
-You will need to provide the same environment variables as above in a file called `local.env` in the root directory.
-
-Note - this file is also useful when running from Idea with the envfile plugin.
-
-This file MUST NOT be committed to git (it is in .gitignore).
+    pnpm build
+    pnpm preview
 
 ## Deploy
 
-Assuming we will build a docker container - add to [backend action](./.github/workflows/backend.yaml) when decided.
+Assuming we will build a docker container - add to [frontend action](../.github/workflows/frontend.yaml) when decided.
 
-Currently it is setup for the frontend to proxy the backend - anything on `/api/*`
+### Configuration
 
-For example - let's say we setup:
-
-    https://cupcake_backend.javazone.no -> backend
-    https://cupcake.javazone.no -> frontend
-
-We would then need to set the host in the frontend for non development builds to `https://cupcake_backend.javazone.no` in
-the [proxy](./frontend/server/middleware/proxy.ts) file - but this is set using the CUPCAKE_BACKEND env var.
-
-All app configuration for the backend is done via the environment.
-
-If deploying with docker - you can place both on the same docker network and use the service name for the env var - see
-[docker-compose.yml](./docker-compose.yml) for an example.
-
-### JWT
-
-    JWT_ENABLED - true
-
-### Sleepingpill
-
-We use the same user and password for dev and deploy here but it must be set in the environment.
-
-    SP_USER
-    SP_PASSWORD
-
-### Bring
-
-We use the same user and password for dev and deploy here but it must be set in the environment.
-
-    BRING_API_USER
-    BRING_API_KEY
-
-### OIDC
-
-This provides authentication and access checking. Users must have the `pkom` role assigned
-in the OIDC provider under the client specified by `OIDC_EXPECTED_AZP`.
-
-    OIDC_WELL_KNOWN_URL - the OIDC discovery endpoint (e.g. https://auth.example.com/realms/myrealm/.well-known/openid-configuration)
-    OIDC_EXPECTED_AZP - the expected client ID (defaults to "cupcake-client")
-
-The backend fetches the JWKS from the discovery document and validates incoming tokens against it.
-
-The frontend OIDC settings are configured via environment variables and must be kept in sync with
-the backend `OIDC_WELL_KNOWN_URL` and `OIDC_EXPECTED_AZP` settings:
-
-    NUXT_PUBLIC_OIDC_AUTHORITY - the OIDC authority URL (e.g. https://auth.example.com/realms/myrealm)
-    NUXT_PUBLIC_OIDC_CLIENT_ID - the OIDC client ID (defaults to "cupcake-client")
-
+| Environment Variable       | Description                                              | Default                                        |
+|----------------------------|----------------------------------------------------------|------------------------------------------------|
+| `CUPCAKE_BACKEND`          | Backend base URL for the server-side proxy               | `http://127.0.0.1:8080` (dev) / `https://cupcake-backend.java.no` (prod) |
+| `CUPCAKE_FRONTEND`         | Hostname the dev server allows (Vite `allowedHosts`)     | `localhost`                                    |
+| `NUXT_PUBLIC_OIDC_AUTHORITY` | OIDC authority URL (e.g. Keycloak realm URL)           | `https://auth.home.chrissearle.org/realms/HA12` |
+| `NUXT_PUBLIC_OIDC_CLIENT_ID` | OIDC client ID                                         | `cupcake-client`                               |

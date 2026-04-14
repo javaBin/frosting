@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.22
 
-FROM --platform=$BUILDPLATFORM node:24-bookworm-slim AS build
+FROM --platform=$BUILDPLATFORM node:25-bookworm-slim AS build
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -16,7 +16,7 @@ COPY . .
 
 RUN pnpm run build
 
-FROM node:24-bookworm-slim AS deploy
+FROM node:25-bookworm-slim AS deploy
 
 ENV NODE_ENV=production
 
