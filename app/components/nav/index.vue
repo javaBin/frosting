@@ -36,7 +36,9 @@ const conferenceItems = computed(() => [
     to: conferenceLink(c),
   })),
 
-  ...(conferencesLoaded.value && !conferencesError.value && conferenceCount.value === 0
+  ...(conferencesLoaded.value &&
+  !conferencesError.value &&
+  conferenceCount.value === 0
     ? [[{ label: "No conferences found", disabled: true }]]
     : []),
 ])

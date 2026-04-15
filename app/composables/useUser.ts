@@ -14,7 +14,8 @@ export const useUser = () => {
     try {
       user.value = await apiJson<User>("/api/me")
     } catch (e) {
-      userError.value = e instanceof ApiError ? e : new ApiError(0, "Unknown error")
+      userError.value =
+        e instanceof ApiError ? e : new ApiError(0, "Unknown error")
       user.value = null
     } finally {
       userPending.value = false

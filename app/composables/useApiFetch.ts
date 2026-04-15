@@ -1,4 +1,4 @@
-import { ensureAccessToken } from './useAuth'
+import { ensureAccessToken } from "./useAuth"
 
 export class ApiError extends Error {
   public readonly status: number
@@ -11,9 +11,12 @@ export class ApiError extends Error {
   }
 }
 
-function buildHeaders(existing: HeadersInit | undefined, token: string | null): Headers {
+function buildHeaders(
+  existing: HeadersInit | undefined,
+  token: string | null,
+): Headers {
   const h = new Headers(existing)
-  if (token) h.set('Authorization', `Bearer ${token}`)
+  if (token) h.set("Authorization", `Bearer ${token}`)
   return h
 }
 
@@ -39,10 +42,13 @@ export async function apiFetch(
   })
 }
 
-export async function apiJson<T>(input: RequestInfo | URL, init: RequestInit = {}): Promise<T> {
+export async function apiJson<T>(
+  input: RequestInfo | URL,
+  init: RequestInit = {},
+): Promise<T> {
   const res = await apiFetch(input, init)
   if (!res.ok) {
-    const bodyText = await res.text().catch(() => '')
+    const bodyText = await res.text().catch(() => "")
     throw new ApiError(res.status, bodyText)
   }
   return (await res.json()) as T

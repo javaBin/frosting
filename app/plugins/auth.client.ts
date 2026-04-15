@@ -1,8 +1,12 @@
-import { completeLoginCallback, isAuthenticated, login } from '~/composables/useAuth'
+import {
+  completeLoginCallback,
+  isAuthenticated,
+  login,
+} from "~/composables/useAuth"
 
 function hasOidcParams(): boolean {
   const params = new URLSearchParams(window.location.search)
-  return params.has('code') && params.has('state')
+  return params.has("code") && params.has("state")
 }
 
 export default defineNuxtPlugin(async () => {
@@ -20,7 +24,7 @@ export default defineNuxtPlugin(async () => {
   }
 
   addRouteMiddleware(
-    'auth',
+    "auth",
     async () => {
       const ok = await isAuthenticated()
       if (!ok) {

@@ -6,9 +6,9 @@ const props = defineProps<{
   conference: Conference
 }>()
 
-const { sessions, sessionsPending, sessionsError, fetchSessions } = useSessionData(props.conference.id)
+const { sessions, sessionsPending, sessionsError, fetchSessions } =
+  useSessionData(props.conference.id)
 await fetchSessions()
-
 
 type Filters = {
   format?: string
@@ -146,7 +146,11 @@ const rangeText = computed(() => {
     </div>
 
     <UProgress v-if="sessionsPending" indeterminate class="w-full" />
-    <SessionsTable v-else :sessions="paginatedSessions" :conference="conference" />
+    <SessionsTable
+      v-else
+      :sessions="paginatedSessions"
+      :conference="conference"
+    />
 
     <div class="flex justify-end">
       <UPagination

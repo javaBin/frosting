@@ -1,4 +1,4 @@
-import { User, UserManager, WebStorageStateStore, Log } from 'oidc-client-ts'
+import { User, UserManager, WebStorageStateStore, Log } from "oidc-client-ts"
 
 interface AuthState {
   returnUrl: string
@@ -6,10 +6,10 @@ interface AuthState {
 
 function isAuthState(value: unknown): value is AuthState {
   return (
-      typeof value === 'object' &&
-      value !== null &&
-      'returnUrl' in value &&
-      typeof (value as { returnUrl?: unknown }).returnUrl === 'string'
+    typeof value === "object" &&
+    value !== null &&
+    "returnUrl" in value &&
+    typeof (value as { returnUrl?: unknown }).returnUrl === "string"
   )
 }
 
@@ -35,8 +35,8 @@ function getUserManager(): UserManager {
       authority: oidcAuthority,
       client_id: oidcClientId,
       redirect_uri: `${origin}/`,
-      response_type: 'code',
-      scope: 'openid profile email offline_access',
+      response_type: "code",
+      scope: "openid profile email offline_access",
       userStore: new WebStorageStateStore({ store: window.sessionStorage }),
       automaticSilentRenew: false,
       loadUserInfo: false,
@@ -84,19 +84,23 @@ let tokenEndpointPromise: Promise<string> | null = null
 async function getTokenEndpoint(): Promise<string> {
   if (!tokenEndpointPromise) {
     const { oidcAuthority } = useRuntimeConfig().public
-    tokenEndpointPromise = fetch(`${oidcAuthority}/.well-known/openid-configuration`)
-        .then(async (r) => {
-          if (!r.ok) throw new Error('Failed to fetch OIDC discovery')
-          return (await r.json()) as Discovery
-        })
-        .then((d) => d.token_endpoint)
+    tokenEndpointPromise = fetch(
+      `${oidcAuthority}/.well-known/openid-configuration`,
+    )
+      .then(async (r) => {
+        if (!r.ok) throw new Error("Failed to fetch OIDC discovery")
+        return (await r.json()) as Discovery
+      })
+      .then((d) => d.token_endpoint)
   }
   return tokenEndpointPromise
 }
 
 let refreshInFlight: Promise<string | null> | null = null
 
-export async function ensureAccessToken(skewSeconds = 30): Promise<string | null> {
+export async function ensureAccessToken(
+  skewSeconds = 30,
+): Promise<string | null> {
   const user = await getUser()
 
   if (!user) {
@@ -134,13 +138,13 @@ export async function ensureAccessToken(skewSeconds = 30): Promise<string | null
     const { oidcClientId } = useRuntimeConfig().public
 
     const body = new URLSearchParams()
-    body.set('grant_type', 'refresh_token')
-    body.set('client_id', oidcClientId)
-    body.set('refresh_token', refreshToken)
+    body.set("grant_type", "refresh_token")
+    body.set("client_id", oidcClientId)
+    body.set("refresh_token", refreshToken)
 
     const resp = await fetch(tokenEndpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body,
     })
 

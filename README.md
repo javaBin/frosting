@@ -13,10 +13,10 @@ Vue 3 / Nuxt frontend for [cupcake](https://github.com/javaBin/cupcake). Lets ja
 
 ## Pages
 
-| Route | Description |
-|---|---|
-| `/` | Home — shows authenticated user and role check |
-| `/conference/[conferenceId]` | Session browser with filtering for a conference |
+| Route                                            | Description                                                  |
+| ------------------------------------------------ | ------------------------------------------------------------ |
+| `/`                                              | Home — shows authenticated user and role check               |
+| `/conference/[conferenceId]`                     | Session browser with filtering for a conference              |
 | `/conference/[conferenceId]/session/[sessionId]` | Session detail with full speaker info (bio, email, location) |
 
 ## Authentication
@@ -61,12 +61,12 @@ ESLint and Prettier are also enforced via pre-commit hooks (lint-staged).
 
 ## Configuration
 
-| Environment Variable | Description | Default |
-|---|---|---|
-| `CUPCAKE_BACKEND` | Backend base URL for the server-side proxy | `http://127.0.0.1:8080` (dev) / `https://cupcake-backend.java.no` (prod) |
-| `CUPCAKE_FRONTEND` | Hostname the dev server allows (Vite `allowedHosts`) | `localhost` |
-| `NUXT_PUBLIC_OIDC_AUTHORITY` | OIDC authority URL (e.g. Keycloak realm URL) | `https://auth.home.chrissearle.org/realms/HA12` |
-| `NUXT_PUBLIC_OIDC_CLIENT_ID` | OIDC client ID | `cupcake-client` |
+| Environment Variable         | Description                                          | Default                                                                  |
+| ---------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------ |
+| `CUPCAKE_BACKEND`            | Backend base URL for the server-side proxy           | `http://127.0.0.1:8080` (dev) / `https://cupcake-backend.java.no` (prod) |
+| `CUPCAKE_FRONTEND`           | Hostname the dev server allows (Vite `allowedHosts`) | `localhost`                                                              |
+| `NUXT_PUBLIC_OIDC_AUTHORITY` | OIDC authority URL (e.g. Keycloak realm URL)         | `https://auth.home.chrissearle.org/realms/HA12`                          |
+| `NUXT_PUBLIC_OIDC_CLIENT_ID` | OIDC client ID                                       | `cupcake-client`                                                         |
 
 `NUXT_PUBLIC_OIDC_AUTHORITY` and `NUXT_PUBLIC_OIDC_CLIENT_ID` must match the `OIDC_WELL_KNOWN_URL` and `OIDC_EXPECTED_AZP` values configured on the backend.
 
@@ -94,8 +94,8 @@ The image uses a multi-stage build (Node build stage, slim runtime stage) and se
 
 ## CI/CD
 
-| Trigger | Workflow | What it does |
-|---|---|---|
-| Push to `main` | `build.yaml` | Builds and pushes multi-platform Docker image, tags as `staging` |
-| Pull request | `pr.yaml` | Runs `pnpm lint` and `pnpm build` |
-| Tag `v*` | `release.yaml` | Promotes `staging` image to `release` and version tag |
+| Trigger        | Workflow       | What it does                                                     |
+| -------------- | -------------- | ---------------------------------------------------------------- |
+| Push to `main` | `build.yaml`   | Builds and pushes multi-platform Docker image, tags as `staging` |
+| Pull request   | `pr.yaml`      | Runs `pnpm lint` and `pnpm build`                                |
+| Tag `v*`       | `release.yaml` | Promotes `staging` image to `release` and version tag            |
