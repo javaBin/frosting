@@ -9,7 +9,6 @@ const backend =
 const shouldProxy = (url: string) =>
   url.startsWith("/api") ||
   url.startsWith("/login") ||
-  url.startsWith("/slackCallback") ||
   url.startsWith("/refresh")
 
 export default defineEventHandler(async (event) => {
