@@ -4,7 +4,7 @@ const backend =
   process.env.CUPCAKE_BACKEND ??
   (process.env.NODE_ENV === "development"
     ? "http://127.0.0.1:8080"
-    : "https://cupcake-backend.java.no")
+    : "https://cupcake-backend.javazone.no")
 
 const shouldProxy = (url: string) =>
   url.startsWith("/api") ||
