@@ -1,6 +1,6 @@
 # Frosting
 
-Vue 3 / Nuxt frontend for [cupcake](https://github.com/javaBin/cupcake). Lets javaBin program committee members (`pkom` role) browse JavaZone conferences and sessions to find potential speakers for local events.
+Vue 3 / Nuxt frontend for [cupcake](https://github.com/javaBin/cupcake). Lets javaBin heroes (`helter` group) browse JavaZone conferences and sessions to find potential speakers for local events.
 
 ## Tech stack
 
@@ -23,7 +23,7 @@ Vue 3 / Nuxt frontend for [cupcake](https://github.com/javaBin/cupcake). Lets ja
 
 The app uses the OIDC Authorization Code flow. Tokens are stored in browser `sessionStorage`. All API requests are automatically sent with a Bearer token, and a 401 response triggers a silent refresh before retrying.
 
-Access requires the `pkom` role in the configured OIDC provider. The home page displays a warning if the authenticated user does not have this role.
+Access requires membership in the `helter` group in Cognito. The home page displays a warning if the authenticated user is not a member.
 
 ## Local development
 

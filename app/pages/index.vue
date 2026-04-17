@@ -30,11 +30,11 @@ await fetchUser()
           </p>
 
           <p
-            v-if="user && !user.hasPkomRole"
+            v-if="user && !user.groups.includes('helter')"
             class="mt-4 font-semibold text-red-600 dark:text-red-400"
           >
-            You need the program committee role to use this application &mdash;
-            ask in <strong>#pkom</strong> on Slack.
+            You need to be a javaBin hero to use this application &mdash;
+            ask in <strong>#helter</strong> on Slack.
           </p>
         </div>
       </div>
