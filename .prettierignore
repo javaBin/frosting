@@ -1,0 +1,5 @@
+**/*.md
+**/*.json
+pnpm-lock.yaml
+.nuxt/
+.output/

@@ -10,6 +10,8 @@ function hasOidcParams(): boolean {
 }
 
 export default defineNuxtPlugin(async () => {
+  if (import.meta.dev) return
+
   if (hasOidcParams()) {
     const returnUrl = await completeLoginCallback()
     const url = new URL(returnUrl, window.location.origin)

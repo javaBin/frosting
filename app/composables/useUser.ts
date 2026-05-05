@@ -8,6 +8,7 @@ export const useUser = () => {
   const userLoaded = useState<boolean>("user-loaded", () => false)
 
   const fetchUser = async (): Promise<void> => {
+    if (import.meta.dev) return
     if (userLoaded.value || userPending.value) return
     userPending.value = true
     userError.value = null

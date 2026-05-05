@@ -24,6 +24,8 @@ export async function apiFetch(
   input: RequestInfo | URL,
   init: RequestInit = {},
 ): Promise<Response> {
+  if (import.meta.dev) return fetch(input, init)
+
   const token = await ensureAccessToken(30)
 
   const res1 = await fetch(input, {

@@ -33,8 +33,8 @@ await fetchUser()
             v-if="user && !user.groups.includes('helter')"
             class="mt-4 font-semibold text-red-600 dark:text-red-400"
           >
-            You need to be a javaBin hero to use this application &mdash;
-            ask in <strong>#helter</strong> on Slack.
+            You need to be a javaBin hero to use this application &mdash; ask in
+            <strong>#helter</strong> on Slack.
           </p>
         </div>
       </div>
