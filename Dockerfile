@@ -4,7 +4,7 @@ FROM --platform=$BUILDPLATFORM node:26-trixie-slim AS build
 
 ENV CI=true
 
-RUN npm install -g pnpm
+RUN npm install -g pnpm@11.0.8
 
 WORKDIR /app
 
