@@ -1,6 +1,8 @@
 # syntax=docker/dockerfile:1.23
 
-FROM --platform=$BUILDPLATFORM node:25-trixie-slim AS build
+FROM --platform=$BUILDPLATFORM node:26-trixie-slim AS build
+
+ENV CI=true
 
 RUN npm install -g pnpm
 
@@ -14,7 +16,7 @@ COPY . .
 
 RUN pnpm run build
 
-FROM node:25-trixie-slim AS deploy
+FROM node:26-trixie-slim AS deploy
 
 ENV NODE_ENV=production
 
