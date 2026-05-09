@@ -23,6 +23,8 @@ ENV NODE_ENV=production
 WORKDIR /app
 
 COPY --from=build /app/.output ./
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-CMD ["node", "/app/server/index.mjs"]
+ENTRYPOINT ["/entrypoint.sh"]
 

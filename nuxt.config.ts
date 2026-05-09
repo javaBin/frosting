@@ -13,8 +13,9 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      oidcAuthority: "https://auth.home.chrissearle.org/realms/HA12",
-      oidcClientId: "cupcake-client",
+      oidcAuthority:
+        "https://cognito-idp.eu-central-1.amazonaws.com/eu-central-1_Icikv3dtD",
+      oidcClientId: "",
     },
   },
 

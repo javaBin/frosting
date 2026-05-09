@@ -1,0 +1,23 @@
+name: cupcake
+team: cupcake
+
+compute:
+  cpu: 256
+  memory: 512
+  port: 3000
+  health_check: /health
+
+routing:
+  host: cupcake.javazone.no
+  priority: 100
+
+auth:
+  pool: internal
+  callback_urls:
+    - https://cupcake.javazone.no/
+    - https://cupcake.javazone.no/auth/callback
+  logout_urls:
+    - https://cupcake.javazone.no/
+
+environment:
+  CUPCAKE_BACKEND: https://cupcake-backend.javazone.no
