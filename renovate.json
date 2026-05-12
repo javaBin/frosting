@@ -1,5 +1,13 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
-  "ignoreDeps": ["javaBin/platform"]
+  "ignoreDeps": ["javaBin/platform"],
+  "regexManagers": [
+    {
+      "fileMatch": ["Dockerfile"],
+      "matchStrings": ["npm install -g pnpm@(?<currentValue>[\\d.]+)"],
+      "depNameTemplate": "pnpm",
+      "datasourceTemplate": "npm"
+    }
+  ]
 }
