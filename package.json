@@ -26,7 +26,7 @@
     "eslint-plugin-prettier": "5.5.6",
     "nuxt": "4.4.8",
     "oidc-client-ts": "3.5.0",
-    "prettier": "3.9.0",
+    "prettier": "3.9.1",
     "typescript": "6.0.3",
     "vue": "3.5.39",
     "vue-router": "5.1.0"
