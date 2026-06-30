@@ -27,8 +27,8 @@ importers:
         specifier: 1.16.0
         version: 1.16.0(@typescript-eslint/utils@8.61.0(eslint@10.6.0(jiti@2.7.0))(typescript@6.0.3))(@vue/compiler-sfc@3.5.39)(eslint@10.6.0(jiti@2.7.0))(magicast@0.5.2)(oxc-parser@0.133.0)(typescript@6.0.3)(vite@7.3.3(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.9.0))
       '@nuxt/icon':
-        specifier: 2.2.4
-        version: 2.2.4(magicast@0.5.2)(vite@7.3.3(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.9.0))(vue@3.5.39(typescript@6.0.3))
+        specifier: 2.2.5
+        version: 2.2.5(magicast@0.5.2)(vite@7.3.3(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.9.0))(vue@3.5.39(typescript@6.0.3))
       '@nuxt/ui':
         specifier: 4.9.0
         version: 4.9.0(4a00b8773a212e2b8abb35f64cd201b1)
@@ -727,8 +727,8 @@ packages:
   '@iconify-json/openmoji@1.2.27':
     resolution: {integrity: sha512-pIH1ofyNMYOD1vysHYtRzhAMMftcdmw+kCdzr/GDxIIa8jU4XrK3LzZcMs+kHXWzNaZL13VZkJ7H+a07BPWiiQ==}
 
-  '@iconify/collections@1.0.701':
-    resolution: {integrity: sha512-J+8LSwG2ZMUTKEi9Bgg1ZameKZixK9oqzoN4+OHyRfYMUv1ZblORCoAcmz8crsAz9Wjm96Xjl4kKmRs/lWtNzQ==}
+  '@iconify/collections@1.0.703':
+    resolution: {integrity: sha512-0C3Yxec2HRMErtMgaG8La4LUiNGSAXtGFCgTmwKQ3yj8UA31Ta7C9T9Q/Z1oCRscef1QchAV3igWnytpTx56mw==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -874,8 +874,8 @@ packages:
   '@nuxt/fonts@0.14.0':
     resolution: {integrity: sha512-4uXQl9fa5F4ibdgU8zomoOcyMdnwgdem+Pi8JEqeDYI5yPR32Kam6HnuRr47dTb97CstaepAvXPWQUUHMtjsFQ==}
 
-  '@nuxt/icon@2.2.4':
-    resolution: {integrity: sha512-qbiEpTJ7ZSJrO9eJ1HPeZLYClDFfEdphe0llMr6A7lPSXOMFDWJ28VVS5VEuIwmZsQJ4AoLIt7EAHkqevA5Rkw==}
+  '@nuxt/icon@2.2.5':
+    resolution: {integrity: sha512-ZDzo5qMATn2T9x2BdgupOU7zT71m8+QPgVtIRJ+LRI2Vy+o3Ensvj3qkMaPt3r7aP2qvPVwxvaSJs7cl3a94fA==}
 
   '@nuxt/kit@4.4.8':
     resolution: {integrity: sha512-ZUlZ5iYfyfJFDPluhn6ZxFWcsuxWbLnZBc8w3MAROcQ4lYfZ+qFpALBLSNlpc0zhOa++33EE+5PEbOAdVIY+dw==}
@@ -6110,7 +6110,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify/collections@1.0.701':
+  '@iconify/collections@1.0.703':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -6442,9 +6442,9 @@ snapshots:
       - uploadthing
       - vite
 
-  '@nuxt/icon@2.2.4(magicast@0.5.2)(vite@7.3.3(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.9.0))(vue@3.5.39(typescript@6.0.3))':
+  '@nuxt/icon@2.2.5(magicast@0.5.2)(vite@7.3.3(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.9.0))(vue@3.5.39(typescript@6.0.3))':
     dependencies:
-      '@iconify/collections': 1.0.701
+      '@iconify/collections': 1.0.703
       '@iconify/types': 2.0.0
       '@iconify/utils': 3.1.3
       '@iconify/vue': 5.0.1(vue@3.5.39(typescript@6.0.3))
@@ -6579,7 +6579,7 @@ snapshots:
       '@floating-ui/dom': 1.7.6
       '@iconify/vue': 5.0.1(vue@3.5.39(typescript@6.0.3))
       '@nuxt/fonts': 0.14.0(db0@0.3.4)(ioredis@5.10.1)(magicast@0.5.2)(vite@7.3.3(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.9.0))
-      '@nuxt/icon': 2.2.4(magicast@0.5.2)(vite@7.3.3(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.9.0))(vue@3.5.39(typescript@6.0.3))
+      '@nuxt/icon': 2.2.5(magicast@0.5.2)(vite@7.3.3(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.9.0))(vue@3.5.39(typescript@6.0.3))
       '@nuxt/kit': 4.4.8(magicast@0.5.2)
       '@nuxt/schema': 4.4.8
       '@nuxtjs/color-mode': 4.0.1(magicast@0.5.2)

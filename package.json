@@ -19,7 +19,7 @@
     "@iconify-json/lucide": "1.2.114",
     "@iconify-json/openmoji": "1.2.27",
     "@nuxt/eslint": "1.16.0",
-    "@nuxt/icon": "2.2.4",
+    "@nuxt/icon": "2.2.5",
     "@nuxt/ui": "4.9.0",
     "eslint": "10.6.0",
     "eslint-config-prettier": "10.1.8",
