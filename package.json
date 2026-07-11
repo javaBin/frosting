@@ -40,5 +40,5 @@
   "lint-staged": {
     "*.{js,ts,vue}": "pnpm lint:fix"
   },
-  "packageManager": "pnpm@11.10.0"
+  "packageManager": "pnpm@11.11.0"
 }
