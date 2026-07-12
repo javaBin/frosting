@@ -11,6 +11,10 @@
     {
       "matchDatasources": ["npm"],
       "minimumReleaseAge": "24 hours"
+    },
+    {
+      "matchPackageNames": ["typescript"],
+      "allowedVersions": "<7.0.0"
     }
   ],
   "regexManagers": [
