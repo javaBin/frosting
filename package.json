@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@artmizu/nuxt-prometheus": "3.0.4",
-    "@iconify-json/carbon": "1.2.25",
+    "@iconify-json/carbon": "1.2.26",
     "@iconify-json/logos": "1.2.13",
     "@iconify-json/lucide": "1.2.126",
     "@iconify-json/openmoji": "1.2.29",
