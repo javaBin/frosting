@@ -69,7 +69,7 @@ jobs:
           cache-to: type=gha,mode=max,scope=amd64
 
   build-arm64:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-26.04-arm
     needs: meta
     env:
       IMAGE_BASE: ghcr.io/javabin/frosting
