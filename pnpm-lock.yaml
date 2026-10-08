@@ -176,8 +176,8 @@ importers:
         specifier: 1.2.15
         version: 1.2.15
       '@iconify-json/lucide':
-        specifier: 1.2.140
-        version: 1.2.140
+        specifier: 1.2.141
+        version: 1.2.141
       '@iconify-json/openmoji':
         specifier: 1.2.29
         version: 1.2.29
@@ -852,8 +852,8 @@ packages:
   '@iconify-json/logos@1.2.15':
     resolution: {integrity: sha512-87zwqEFatvpcK7lIIp0RnCbDAPWcG8bTK5hZI5SuD71za+opSuqtGvFUiSNt6wiyuY+nolrW/JW1K4/mBczWhQ==}
 
-  '@iconify-json/lucide@1.2.140':
-    resolution: {integrity: sha512-/br6j8K8IFcZscs7gJ20PWaaonQeA4jcGK0Bdt+4EDra2Zbtpb36RGaGOJr5opz6zJtXaZdMCYCXa0dN/y4c0g==}
+  '@iconify-json/lucide@1.2.141':
+    resolution: {integrity: sha512-V9IC4cc7giA8PtoSeNc5GbASh4Sc5sRILu3jdGO9TMRWC+4YUeU3I3prNnoAZ5QiRZpfrjBhmXkqIdwfS//PGw==}
 
   '@iconify-json/openmoji@1.2.29':
     resolution: {integrity: sha512-vXdhkqcXVSO6suy+m9LbcUM3OdVyuNOtpV8/als/WqfkQIRxevL5Geb/g+6GH/Qwnq1OqksEmaDGTCmZ5nFKJQ==}
@@ -6261,7 +6261,7 @@ snapshots:
       birpc: 4.0.0
       destr: 2.0.5
       devframe: 0.7.14(cac@7.0.0)(srvx@1.0.5)(typescript@6.0.3)
-      nostics: 1.2.0
+      nostics: 1.3.0
       pathe: 2.0.3
       perfect-debounce: 2.1.0
       tinyexec: 1.3.1
@@ -6272,7 +6272,7 @@ snapshots:
     dependencies:
       '@json-render/core': 0.19.0(zod@4.4.3)
       devframe: 0.7.14(cac@7.0.0)(srvx@1.0.5)(typescript@6.0.3)
-      nostics: 1.2.0
+      nostics: 1.3.0
       zod: 4.4.3
     optionalDependencies:
       '@devframes/hub': 0.7.14(devframe@0.7.14(cac@7.0.0)(srvx@1.0.5)(typescript@6.0.3))
@@ -6589,7 +6589,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/lucide@1.2.140':
+  '@iconify-json/lucide@1.2.141':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -8478,7 +8478,7 @@ snapshots:
       devframe: 0.7.14(cac@7.0.0)(srvx@1.0.5)(typescript@6.0.3)
       local-pkg: 1.2.1
       mlly: 1.8.2
-      nostics: 1.2.0
+      nostics: 1.3.0
       nypm: 0.6.9
       vite: 8.3.2(esbuild@0.28.0)(jiti@2.7.0)(terser@5.46.1)(yaml@2.9.0)
     transitivePeerDependencies:
@@ -9143,7 +9143,7 @@ snapshots:
       destr: 2.0.5
       h3: 2.0.1-rc.26(crossws@0.4.10(srvx@1.0.5))
       mrmime: 2.0.1
-      nostics: 1.2.0
+      nostics: 1.3.0
       pathe: 2.0.3
       ufo: 1.6.4
       valibot: 1.4.2(typescript@6.0.3)
