@@ -22,9 +22,10 @@
       "allowedVersions": "<7.0.0"
     }
   ],
-  "regexManagers": [
+  "customManagers": [
     {
-      "fileMatch": ["Dockerfile"],
+      "customType": "regex",
+      "managerFilePatterns": ["/Dockerfile/"],
       "matchStrings": ["npm install -g pnpm@(?<currentValue>[\\d.]+)"],
       "depNameTemplate": "pnpm",
       "datasourceTemplate": "npm"
