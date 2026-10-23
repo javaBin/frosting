@@ -36,7 +36,7 @@ function getUserManager(): UserManager {
       client_id: oidcClientId,
       redirect_uri: `${origin}/`,
       response_type: "code",
-      scope: "openid profile email offline_access",
+      scope: "openid profile email",
       userStore: new WebStorageStateStore({ store: window.sessionStorage }),
       automaticSilentRenew: false,
       loadUserInfo: false,
