@@ -1,0 +1,104 @@
+# GENERATED FROM app.yaml — do not edit, changes will be overwritten
+module "platform" {
+  source = "git::https://github.com/javaBin/platform//terraform/modules/platform-data?ref=main"
+
+  project = "javabin"
+  domain  = "javazone.no"
+}
+
+module "ecr" {
+  source = "git::https://github.com/javaBin/platform//terraform/modules/ecr-repo?ref=main"
+
+  name = "cupcake"
+  team = "cupcake"
+}
+
+module "routing" {
+  source = "git::https://github.com/javaBin/platform//terraform/modules/service-routing?ref=main"
+
+  name                   = "cupcake"
+  team                   = "cupcake"
+  vpc_id                 = module.platform.vpc_id
+  port                   = 3000
+  health_check_path      = "/health"
+  health_check_matcher   = "200"
+  https_listener_arn     = module.platform.https_listener_arn
+  listener_rule_priority = 100
+  host_header            = "cupcake.javazone.no"
+  route53_zone_id        = module.platform.route53_zone_id
+  alb_dns_name           = module.platform.alb_dns_name
+  alb_zone_id            = module.platform.alb_zone_id
+  deregistration_delay   = 30
+}
+
+module "auth" {
+  source = "git::https://github.com/javaBin/platform//terraform/modules/cognito-app-client?ref=main"
+
+  app_name      = "cupcake"
+  team          = "cupcake"
+  pool          = "internal"
+  callback_urls = ["https://cupcake.javazone.no/", "https://cupcake.javazone.no/auth/callback"]
+  logout_urls   = ["https://cupcake.javazone.no/"]
+  project       = "javabin"
+}
+
+module "task_role" {
+  source = "git::https://github.com/javaBin/platform//terraform/modules/service-role?ref=main"
+
+  name                     = "cupcake"
+  team                     = "cupcake"
+  region                   = "eu-central-1"
+  aws_account_id           = "553637109631"
+  permissions_boundary_arn = module.platform.developer_boundary_arn
+  additional_policy_jsons  = {}
+}
+
+module "service" {
+  source = "git::https://github.com/javaBin/platform//terraform/modules/ecs-service?ref=main"
+
+  name                     = "cupcake"
+  team                     = "cupcake"
+  cluster_id               = module.platform.ecs_cluster_id
+  image                    = module.ecr.repository_url
+  cpu                      = 256
+  memory                   = 512
+  port                     = 3000
+  desired_count            = 1
+  execution_role_arn       = module.platform.execution_role_arn
+  task_role_arn            = module.task_role.role_arn
+  subnet_ids               = module.platform.private_subnet_ids
+  security_group_ids       = [module.platform.ecs_tasks_security_group_id]
+  region                   = "eu-central-1"
+  container_user           = "1000"
+  readonly_root_filesystem = true
+  target_group_arn         = module.routing.target_group_arn
+  environment = {
+    CUPCAKE_BACKEND      = "https://cupcake-backend.javazone.no"
+    COGNITO_USER_POOL_ID = module.auth.user_pool_id
+    COGNITO_DOMAIN       = module.auth.user_pool_domain
+    COGNITO_ISSUER_URL   = module.auth.issuer_url
+  }
+  secrets = {
+    COGNITO_CLIENT_ID     = module.auth.client_id_arn
+    COGNITO_CLIENT_SECRET = module.auth.client_secret_arn
+  }
+}
+
+module "alarms" {
+  source = "git::https://github.com/javaBin/platform//terraform/modules/service-alarm?ref=main"
+
+  name                    = "cupcake"
+  team                    = "cupcake"
+  service                 = "cupcake"
+  cluster_name            = module.platform.ecs_cluster_name
+  sns_topic_arns          = [data.aws_sns_topic.alerts.arn]
+  cpu_threshold           = 80
+  memory_threshold        = 80
+  error_5xx_threshold     = 10
+  target_group_arn_suffix = module.routing.target_group_arn_suffix
+  alb_arn_suffix          = module.platform.alb_arn_suffix
+}
+
+data "aws_sns_topic" "alerts" {
+  name = "javabin-alerts"
+}
