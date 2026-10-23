@@ -41,7 +41,7 @@ pnpm dev
 
 The cupcake backend must be running locally unless you override `CUPCAKE_BACKEND`. With `JWT_ENABLED=false` on the backend, no auth configuration is needed.
 
-The frontend OIDC defaults point to the development Keycloak realm, so no `NUXT_PUBLIC_OIDC_*` overrides are needed for local dev against that environment.
+The frontend OIDC authority defaults to the Cognito internal pool. To log in locally, set `NUXT_PUBLIC_OIDC_CLIENT_ID` (see Configuration).
 
 ## Preview a production build
 
@@ -65,10 +65,10 @@ ESLint and Prettier are also enforced via pre-commit hooks (lint-staged).
 | ---------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------ |
 | `CUPCAKE_BACKEND`            | Backend base URL for the server-side proxy           | `http://127.0.0.1:8080` (dev) / `https://cupcake-backend.java.no` (prod) |
 | `CUPCAKE_FRONTEND`           | Hostname the dev server allows (Vite `allowedHosts`) | `localhost`                                                              |
-| `NUXT_PUBLIC_OIDC_AUTHORITY` | OIDC authority URL (e.g. Keycloak realm URL)         | `https://auth.home.chrissearle.org/realms/HA12`                          |
-| `NUXT_PUBLIC_OIDC_CLIENT_ID` | OIDC client ID                                       | `cupcake-client`                                                         |
+| `NUXT_PUBLIC_OIDC_AUTHORITY` | OIDC authority (issuer) URL                          | Cognito internal pool issuer                                             |
+| `NUXT_PUBLIC_OIDC_CLIENT_ID` | OIDC client ID                                       | empty                                                                    |
 
-`NUXT_PUBLIC_OIDC_AUTHORITY` and `NUXT_PUBLIC_OIDC_CLIENT_ID` must match the `OIDC_WELL_KNOWN_URL` and `OIDC_EXPECTED_AZP` values configured on the backend.
+In the platform deployment both are injected via `auth.env` in `app.yaml` (aliases of `COGNITO_ISSUER_URL` and `COGNITO_CLIENT_ID` for the platform-created public Cognito client). For local login against Cognito, set `NUXT_PUBLIC_OIDC_CLIENT_ID` to that client ID; `http://localhost:3000/` is a registered callback.
 
 ## Proxy middleware
 

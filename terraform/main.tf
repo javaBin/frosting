@@ -4,6 +4,7 @@ module "platform" {
 
   project = "javabin"
   domain  = "javazone.no"
+  team    = "cupcake"
 }
 
 module "ecr" {
@@ -34,12 +35,14 @@ module "routing" {
 module "auth" {
   source = "git::https://github.com/javaBin/platform//terraform/modules/cognito-app-client?ref=main"
 
-  app_name      = "cupcake"
-  team          = "cupcake"
-  pool          = "internal"
-  callback_urls = ["https://cupcake.javazone.no/", "https://cupcake.javazone.no/auth/callback"]
-  logout_urls   = ["https://cupcake.javazone.no/"]
-  project       = "javabin"
+  app_name       = "cupcake"
+  team           = "cupcake"
+  pool           = "internal"
+  client_type    = "public"
+  project        = "javabin"
+  callback_urls  = ["https://cupcake.javazone.no/", "https://cupcake.javazone.no/auth/callback", "http://localhost:3000/"]
+  logout_urls    = ["https://cupcake.javazone.no/", "http://localhost:3000/"]
+  allowed_groups = ["helter"]
 }
 
 module "task_role" {
@@ -73,14 +76,17 @@ module "service" {
   readonly_root_filesystem = true
   target_group_arn         = module.routing.target_group_arn
   environment = {
-    CUPCAKE_BACKEND      = "https://cupcake-backend.javazone.no"
-    COGNITO_USER_POOL_ID = module.auth.user_pool_id
-    COGNITO_DOMAIN       = module.auth.user_pool_domain
-    COGNITO_ISSUER_URL   = module.auth.issuer_url
+    CUPCAKE_BACKEND            = "https://cupcake-backend.javazone.no"
+    COGNITO_USER_POOL_ID       = module.auth.user_pool_id
+    COGNITO_DOMAIN             = module.auth.user_pool_domain
+    COGNITO_ISSUER_URL         = module.auth.issuer_url
+    COGNITO_WELL_KNOWN_URL     = module.auth.well_known_url
+    COGNITO_GROUPS             = "helter"
+    NUXT_PUBLIC_OIDC_AUTHORITY = module.auth.issuer_url
   }
   secrets = {
-    COGNITO_CLIENT_ID     = module.auth.client_id_arn
-    COGNITO_CLIENT_SECRET = module.auth.client_secret_arn
+    COGNITO_CLIENT_ID          = module.auth.client_id_arn
+    NUXT_PUBLIC_OIDC_CLIENT_ID = module.auth.client_id_arn
   }
 }
 

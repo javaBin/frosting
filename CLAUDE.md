@@ -54,8 +54,8 @@ There are no unit tests in this project.
 |----------|---------|-------------|
 | `CUPCAKE_BACKEND` | `http://127.0.0.1:8080` (dev) / `https://cupcake-backend.java.no` (prod) | Backend URL for server-side proxy |
 | `CUPCAKE_FRONTEND` | `localhost` | Hostname for Vite `allowedHosts` |
-| `NUXT_PUBLIC_OIDC_AUTHORITY` | `https://auth.home.chrissearle.org/realms/HA12` | Keycloak realm URL |
-| `NUXT_PUBLIC_OIDC_CLIENT_ID` | `cupcake-client` | OIDC client ID |
+| `NUXT_PUBLIC_OIDC_AUTHORITY` | Cognito internal pool issuer | OIDC issuer URL |
+| `NUXT_PUBLIC_OIDC_CLIENT_ID` | empty | OIDC client ID |
 
 For local dev against the Cupcake backend with `JWT_ENABLED=false`, no OIDC config overrides are needed.
 

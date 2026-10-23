@@ -23,8 +23,9 @@ ENV NODE_ENV=production
 WORKDIR /app
 
 COPY --from=build /app/.output ./
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
 
-ENTRYPOINT ["/entrypoint.sh"]
+# uid 1000 (node), matching the platform's compute.user default.
+USER node
+
+CMD ["node", "/app/server/index.mjs"]
 
