@@ -16,6 +16,7 @@ export default defineNuxtConfig({
       oidcAuthority:
         "https://cognito-idp.eu-central-1.amazonaws.com/eu-central-1_Icikv3dtD",
       oidcClientId: "",
+      oidcLogoutDomain: "javabin-internal.auth.eu-central-1.amazoncognito.com",
     },
   },
 
