@@ -76,13 +76,14 @@ module "service" {
   readonly_root_filesystem = true
   target_group_arn         = module.routing.target_group_arn
   environment = {
-    CUPCAKE_BACKEND            = "https://cupcake-backend.javazone.no"
-    COGNITO_USER_POOL_ID       = module.auth.user_pool_id
-    COGNITO_DOMAIN             = module.auth.user_pool_domain
-    COGNITO_ISSUER_URL         = module.auth.issuer_url
-    COGNITO_WELL_KNOWN_URL     = module.auth.well_known_url
-    COGNITO_GROUPS             = "helter"
-    NUXT_PUBLIC_OIDC_AUTHORITY = module.auth.issuer_url
+    CUPCAKE_BACKEND                = "https://cupcake-backend.javazone.no"
+    COGNITO_USER_POOL_ID           = module.auth.user_pool_id
+    COGNITO_DOMAIN                 = module.auth.user_pool_domain
+    COGNITO_ISSUER_URL             = module.auth.issuer_url
+    COGNITO_WELL_KNOWN_URL         = module.auth.well_known_url
+    COGNITO_GROUPS                 = "helter"
+    NUXT_PUBLIC_OIDC_AUTHORITY     = module.auth.issuer_url
+    NUXT_PUBLIC_OIDC_LOGOUT_DOMAIN = module.auth.user_pool_domain
   }
   secrets = {
     COGNITO_CLIENT_ID          = module.auth.client_id_arn
