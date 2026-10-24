@@ -16,6 +16,9 @@ pnpm preview      # Preview production build
 pnpm lint         # ESLint check
 pnpm lint:fix     # ESLint auto-fix
 pnpm format       # Prettier format
+pnpm format:check # Prettier check only
+pnpm typecheck    # vue-tsc via nuxt typecheck
+pnpm check        # lint + format:check + typecheck — run after every change
 ```
 
 There are no unit tests in this project.
@@ -64,5 +67,5 @@ For local dev against the Cupcake backend with `JWT_ENABLED=false`, no OIDC conf
 - TypeScript throughout; `any` is not acceptable
 - No semicolons (Prettier config)
 - ESLint + Prettier enforced via pre-commit hooks (lint-staged + husky)
-- All changes must pass `pnpm lint` before merging (enforced in `pr.yaml`)
+- All changes must pass `pnpm check` before merging (enforced in `pr.yaml`)
 - Use exact versions for dependencies
