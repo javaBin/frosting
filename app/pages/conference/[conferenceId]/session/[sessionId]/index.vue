@@ -16,11 +16,11 @@ const { findSession, duration } = useSessions()
 const conferenceId = String(route.params.conferenceId)
 const sessionId = String(route.params.sessionId)
 
-await fetchConferences()
+void fetchConferences()
 
 const { sessions, sessionsPending, fetchSessions } =
   useSessionData(conferenceId)
-await fetchSessions()
+void fetchSessions()
 
 const conference = computed<Conference | undefined>(() =>
   findConference(conferenceId),

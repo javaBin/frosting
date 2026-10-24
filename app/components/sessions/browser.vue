@@ -8,7 +8,7 @@ const props = defineProps<{
 
 const { sessions, sessionsPending, sessionsError, fetchSessions } =
   useSessionData(props.conference.id)
-await fetchSessions()
+void fetchSessions()
 
 type Filters = {
   format?: string
@@ -106,6 +106,7 @@ const paginatedSessions = computed(() => {
 })
 
 const rangeText = computed(() => {
+  if (sessionsPending.value) return "Loading sessions…"
   if (total.value === 0) return "Showing 0–0 of 0"
   const start = (page.value - 1) * pageSize.value + 1
   const end = Math.min(page.value * pageSize.value, total.value)

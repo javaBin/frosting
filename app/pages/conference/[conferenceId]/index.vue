@@ -7,7 +7,7 @@ const { conferencesPending, fetchConferences, findConference } =
 
 const conferenceId = String(route.params.conferenceId)
 
-await fetchConferences()
+void fetchConferences()
 
 const conference = computed<Conference | undefined>(() =>
   findConference(conferenceId),

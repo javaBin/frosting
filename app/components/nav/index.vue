@@ -8,7 +8,7 @@ const {
   conferenceLink,
 } = useConferences()
 
-await fetchConferences()
+void fetchConferences()
 
 const route = useRoute()
 const conferenceList = computed(() => conferences.value)
