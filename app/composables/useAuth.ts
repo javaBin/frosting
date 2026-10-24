@@ -76,7 +76,15 @@ export async function completeLoginCallback(): Promise<string> {
 export async function logout(): Promise<void> {
   currentUser = null
   await getUserManager().removeUser()
-  await getUserManager().signoutRedirect()
+
+  // Cognito's /logout ignores post_logout_redirect_uri; it needs client_id and
+  // a logout_uri that exactly matches one of the client's logout URLs.
+  const { oidcClientId, oidcLogoutDomain } = useRuntimeConfig().public
+  const params = new URLSearchParams({
+    client_id: oidcClientId,
+    logout_uri: `${window.location.origin}/`,
+  })
+  window.location.assign(`https://${oidcLogoutDomain}/logout?${params}`)
 }
 
 let tokenEndpointPromise: Promise<string> | null = null
