@@ -87,6 +87,7 @@ module "service" {
   }
   secrets = {
     COGNITO_CLIENT_ID          = module.auth.client_id_arn
+    COGNITO_IDENTITY_PROVIDER  = module.auth.identity_provider_arn
     NUXT_PUBLIC_OIDC_CLIENT_ID = module.auth.client_id_arn
   }
 }
