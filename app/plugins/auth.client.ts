@@ -1,5 +1,6 @@
 import {
   completeLoginCallback,
+  initAuth,
   isAuthenticated,
   login,
 } from "~/composables/useAuth"
@@ -10,7 +11,15 @@ function hasOidcParams(): boolean {
 }
 
 export default defineNuxtPlugin(async () => {
-  if (import.meta.dev) return
+  const config = useRuntimeConfig().public
+  initAuth({
+    enabled: config.authEnabled,
+    oidcAuthority: config.oidcAuthority,
+    oidcClientId: config.oidcClientId,
+    oidcLogoutDomain: config.oidcLogoutDomain,
+  })
+
+  if (!config.authEnabled) return
 
   if (hasOidcParams()) {
     const returnUrl = await completeLoginCallback()

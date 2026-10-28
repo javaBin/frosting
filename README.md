@@ -39,9 +39,9 @@ Start the dev server (proxies `/api/*` to `http://127.0.0.1:8080` by default):
 pnpm dev
 ```
 
-The cupcake backend must be running locally unless you override `CUPCAKE_BACKEND`. With `JWT_ENABLED=false` on the backend, no auth configuration is needed.
+The cupcake backend must be running locally unless you override `CUPCAKE_BACKEND`.
 
-The frontend OIDC authority defaults to the Cognito internal pool. To log in locally, set `NUXT_PUBLIC_OIDC_CLIENT_ID` (see Configuration).
+`pnpm dev` loads `local.env` (gitignored) if it exists. Login is off in dev by default. To test with login, set `JWT_ENABLED=true` in `local.env` here and in cupcake's. Both then use the prod Cognito pool; its public client allows `http://localhost:3000/` as a callback and logout URL, so you sign in with your `@java.no` Google account as in prod. You need to be in the `helter` group. Production builds always require login.
 
 ## Preview a production build
 
@@ -63,20 +63,17 @@ ESLint and Prettier are also enforced via pre-commit hooks (lint-staged).
 
 | Environment Variable         | Description                                          | Default                                                                  |
 | ---------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------ |
-| `CUPCAKE_BACKEND`            | Backend base URL for the server-side proxy           | `http://127.0.0.1:8080` (dev) / `https://cupcake-backend.java.no` (prod) |
+| `CUPCAKE_BACKEND`            | Backend base URL for the server-side proxy           | `http://127.0.0.1:8080` (dev) / `https://cupcake-backend.javazone.no` (prod) |
 | `CUPCAKE_FRONTEND`           | Hostname the dev server allows (Vite `allowedHosts`) | `localhost`                                                              |
 | `NUXT_PUBLIC_OIDC_AUTHORITY` | OIDC authority (issuer) URL                          | Cognito internal pool issuer                                             |
-| `NUXT_PUBLIC_OIDC_CLIENT_ID` | OIDC client ID                                       | empty                                                                    |
+| `NUXT_PUBLIC_OIDC_CLIENT_ID` | OIDC client ID                                       | The prod public Cognito client                                           |
+| `JWT_ENABLED`                | `true` turns login on under `pnpm dev`               | unset (login off in dev, always on in production builds)                 |
 
-In the platform deployment both are injected via `auth.env` in `app.yaml` (aliases of `COGNITO_ISSUER_URL` and `COGNITO_CLIENT_ID` for the platform-created public Cognito client). For local login against Cognito, set `NUXT_PUBLIC_OIDC_CLIENT_ID` to that client ID; `http://localhost:3000/` is a registered callback.
+In the platform deployment the OIDC values are injected via `auth.env` in `app.yaml` (aliases of `COGNITO_ISSUER_URL` and `COGNITO_CLIENT_ID` for the platform-created public Cognito client). The defaults are the same prod values, so local login needs no OIDC settings.
 
 ## Proxy middleware
 
-The Nuxt server middleware transparently proxies the following paths to the cupcake backend:
-
-- `/api/*` — conference and session data
-- `/login` — OIDC login initiation
-- `/refresh` — token refresh
+The Nuxt server middleware proxies `/api/*` (except `/api/_nuxt_icon`) to the cupcake backend, keeping API calls same-origin. It streams responses and gzips JSON for browsers that accept it.
 
 This keeps the frontend and backend on the same origin from the browser's perspective, avoiding CORS issues.
 

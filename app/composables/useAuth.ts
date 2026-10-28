@@ -25,11 +25,34 @@ type TokenResponse = {
 
 Log.setLevel(Log.WARN)
 
+export type AuthSettings = {
+  enabled: boolean
+  oidcAuthority: string
+  oidcClientId: string
+  oidcLogoutDomain: string
+}
+
+let settings: AuthSettings | null = null
+
+// Called once from the auth plugin, where the Nuxt context is available. The
+// functions below run from fetch helpers and after awaits, where
+// useRuntimeConfig() can lose that context, so they read these instead.
+export function initAuth(authSettings: AuthSettings): void {
+  settings = authSettings
+}
+
+function authSettings(): AuthSettings {
+  if (!settings) throw new Error("initAuth() must run before using auth")
+  return settings
+}
+
+export const isAuthEnabled = (): boolean => authSettings().enabled
+
 let _userManager: UserManager | null = null
 
 function getUserManager(): UserManager {
   if (!_userManager) {
-    const { oidcAuthority, oidcClientId } = useRuntimeConfig().public
+    const { oidcAuthority, oidcClientId } = authSettings()
     const origin = window.location.origin
     _userManager = new UserManager({
       authority: oidcAuthority,
@@ -79,7 +102,7 @@ export async function logout(): Promise<void> {
 
   // Cognito's /logout ignores post_logout_redirect_uri; it needs client_id and
   // a logout_uri that exactly matches one of the client's logout URLs.
-  const { oidcClientId, oidcLogoutDomain } = useRuntimeConfig().public
+  const { oidcClientId, oidcLogoutDomain } = authSettings()
   const params = new URLSearchParams({
     client_id: oidcClientId,
     logout_uri: `${window.location.origin}/`,
@@ -91,7 +114,7 @@ let tokenEndpointPromise: Promise<string> | null = null
 
 async function getTokenEndpoint(): Promise<string> {
   if (!tokenEndpointPromise) {
-    const { oidcAuthority } = useRuntimeConfig().public
+    const { oidcAuthority } = authSettings()
     tokenEndpointPromise = fetch(
       `${oidcAuthority}/.well-known/openid-configuration`,
     )
@@ -143,7 +166,7 @@ export async function ensureAccessToken(
       return null
     }
 
-    const { oidcClientId } = useRuntimeConfig().public
+    const { oidcClientId } = authSettings()
 
     const body = new URLSearchParams()
     body.set("grant_type", "refresh_token")

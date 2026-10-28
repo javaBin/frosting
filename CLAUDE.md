@@ -28,7 +28,8 @@ There are no unit tests in this project.
 ### Authentication
 - OIDC Authorization Code flow via `oidc-client-ts`
 - Tokens in browser `sessionStorage`; cleared on browser close
-- Global auth middleware in `app/plugins/auth.client.ts` protects all routes
+- Global auth middleware in `app/plugins/auth.client.ts` protects all routes; the plugin also passes runtime config to `initAuth()`, and code elsewhere checks `isAuthEnabled()` rather than calling `useRuntimeConfig()`
+- Login is always on in production builds; under `pnpm dev` (which loads `local.env`) only with `JWT_ENABLED=true`, against the same prod Cognito pool
 - `helter` group required for access; home page warns if user is not a member
 - Logic lives in `app/composables/useAuth.ts`
 
@@ -58,9 +59,10 @@ There are no unit tests in this project.
 | `CUPCAKE_BACKEND` | `http://127.0.0.1:8080` (dev) / `https://cupcake-backend.javazone.no` (prod) | Backend URL for server-side proxy |
 | `CUPCAKE_FRONTEND` | `localhost` | Hostname for Vite `allowedHosts` |
 | `NUXT_PUBLIC_OIDC_AUTHORITY` | Cognito internal pool issuer | OIDC issuer URL |
-| `NUXT_PUBLIC_OIDC_CLIENT_ID` | empty | OIDC client ID |
+| `NUXT_PUBLIC_OIDC_CLIENT_ID` | prod public Cognito client | OIDC client ID |
+| `JWT_ENABLED` | unset | `true` in `local.env` turns login on under `pnpm dev` |
 
-For local dev against the Cupcake backend with `JWT_ENABLED=false`, no OIDC config overrides are needed.
+Local dev needs no OIDC overrides either way; the defaults are the prod Cognito values.
 
 ## Code style
 

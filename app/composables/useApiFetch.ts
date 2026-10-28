@@ -1,4 +1,4 @@
-import { ensureAccessToken } from "./useAuth"
+import { ensureAccessToken, isAuthEnabled } from "./useAuth"
 
 export class ApiError extends Error {
   public readonly status: number
@@ -24,7 +24,7 @@ export async function apiFetch(
   input: RequestInfo | URL,
   init: RequestInit = {},
 ): Promise<Response> {
-  if (import.meta.dev) return fetch(input, init)
+  if (!isAuthEnabled()) return fetch(input, init)
 
   const token = await ensureAccessToken(30)
 

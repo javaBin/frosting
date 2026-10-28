@@ -1,5 +1,6 @@
 import type { User } from "@/types/user"
 import { ApiError, apiJson } from "~/composables/useApiFetch"
+import { isAuthEnabled } from "~/composables/useAuth"
 
 export const useUser = () => {
   const user = useState<User | null>("user-data", () => null)
@@ -8,7 +9,7 @@ export const useUser = () => {
   const userLoaded = useState<boolean>("user-loaded", () => false)
 
   const fetchUser = async (): Promise<void> => {
-    if (import.meta.dev) return
+    if (!isAuthEnabled()) return
     if (userLoaded.value || userPending.value) return
     userPending.value = true
     userError.value = null
