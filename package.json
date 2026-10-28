@@ -18,7 +18,7 @@
   "dependencies": {
     "@artmizu/nuxt-prometheus": "3.0.4",
     "@iconify-json/carbon": "1.2.29",
-    "@iconify-json/logos": "1.2.18",
+    "@iconify-json/logos": "1.2.17",
     "@iconify-json/lucide": "1.2.147",
     "@iconify-json/openmoji": "1.2.29",
     "@nuxt/eslint": "1.17.0",
@@ -27,7 +27,7 @@
     "eslint": "10.13.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.7",
-    "nuxt": "4.6.3",
+    "nuxt": "4.6.2",
     "oidc-client-ts": "3.5.0",
     "prettier": "3.9.10",
     "typescript": "6.0.3",
