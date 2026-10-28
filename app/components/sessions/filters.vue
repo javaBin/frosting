@@ -1,17 +1,14 @@
 <script setup lang="ts">
-type Filters = {
-  format?: string
-  status?: string
-  language?: string
-  city?: string
-  county?: string
-}
+import type { Filters } from "@/types/filters"
+import type { Format, Language, Status } from "@/types/session"
+
+type FilterItem<T> = { label: string; value: T | undefined }
 
 const model = defineModel<Filters>({ required: true })
 
 const open = ref(false)
 
-const formatItems = [
+const formatItems: FilterItem<Format>[] = [
   { label: "Any", value: undefined },
   { label: "Presentation", value: "PRESENTATION" },
   { label: "Lightning Talk", value: "LIGHTNING_TALK" },
@@ -19,7 +16,7 @@ const formatItems = [
   { label: "Panel Debate", value: "PANEL" },
 ]
 
-const statusItems = [
+const statusItems: FilterItem<Status>[] = [
   { label: "Any", value: undefined },
   { label: "Approved", value: "APPROVED" },
   { label: "Submitted", value: "SUBMITTED" },
@@ -28,7 +25,7 @@ const statusItems = [
   { label: "Draft", value: "DRAFT" },
 ]
 
-const languageItems = [
+const languageItems: FilterItem<Language>[] = [
   { label: "Any", value: undefined },
   { label: "English", value: "ENGLISH" },
   { label: "Norwegian", value: "NORWEGIAN" },

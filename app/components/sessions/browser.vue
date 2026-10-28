@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Conference } from "@/types/conference"
 import type { Session } from "@/types/session"
+import type { Filters } from "@/types/filters"
 
 const props = defineProps<{
   conference: Conference
@@ -9,14 +10,6 @@ const props = defineProps<{
 const { sessions, sessionsPending, sessionsError, fetchSessions } =
   useSessionData(props.conference.id)
 void fetchSessions()
-
-type Filters = {
-  format?: string
-  status?: string
-  language?: string
-  city?: string
-  county?: string
-}
 
 const search = ref("")
 const page = ref(1)

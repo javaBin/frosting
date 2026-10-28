@@ -12,15 +12,16 @@ export const useUser = () => {
     if (userLoaded.value || userPending.value) return
     userPending.value = true
     userError.value = null
+    // Loaded is only set on success, so the next call after a failure retries
     try {
       user.value = await apiJson<User>("/api/me")
+      userLoaded.value = true
     } catch (e) {
       userError.value =
         e instanceof ApiError ? e : new ApiError(0, "Unknown error")
       user.value = null
     } finally {
       userPending.value = false
-      userLoaded.value = true
     }
   }
 

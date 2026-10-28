@@ -11,13 +11,12 @@ const {
 void fetchConferences()
 
 const route = useRoute()
-const conferenceList = computed(() => conferences.value)
-const conferenceCount = computed(() => conferenceList.value.length)
+const conferenceCount = computed(() => conferences.value.length)
 
 const currentConference = computed(() => {
   const id = route.params.conferenceId
   if (!id) return undefined
-  return conferenceList.value.find((c) => c.id === id)
+  return conferences.value.find((c) => c.id === id)
 })
 
 const buttonLabel = computed(() => {
@@ -31,7 +30,7 @@ const conferenceItems = computed(() => [
     ? [[{ label: "Failed to load conferences", disabled: true }]]
     : []),
 
-  conferenceList.value.map((c) => ({
+  conferences.value.map((c) => ({
     label: c.name,
     to: conferenceLink(c),
   })),

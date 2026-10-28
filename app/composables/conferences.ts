@@ -17,15 +17,16 @@ export const useConferences = () => {
     if (conferencesLoaded.value || conferencesPending.value) return
     conferencesPending.value = true
     conferencesError.value = null
+    // Loaded is only set on success, so the next call after a failure retries
     try {
       conferences.value = await apiJson<Conference[]>("/api/conferences")
+      conferencesLoaded.value = true
     } catch (e) {
       conferencesError.value =
         e instanceof ApiError ? e : new ApiError(0, "Unknown error")
       conferences.value = []
     } finally {
       conferencesPending.value = false
-      conferencesLoaded.value = true
     }
   }
 

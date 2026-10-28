@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import type { Format } from "@/types/session"
+
 const props = defineProps<{
-  format: string
+  format: Format
   full?: boolean
 }>()
 </script>

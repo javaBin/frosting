@@ -26,8 +26,8 @@ const columns: TableColumn<Session>[] = [
       return h(
         "div",
         { class: "space-y-2 max-w-[18rem]" },
-        speakers.map((s, i) =>
-          h("div", { key: i, class: "leading-tight" }, [
+        speakers.map((s) =>
+          h("div", { key: s.email, class: "leading-tight" }, [
             h("div", { class: "font-medium break-words" }, s.name),
             h("div", { class: "text-sm text-muted break-all" }, s.email),
           ]),
@@ -128,11 +128,11 @@ const columns: TableColumn<Session>[] = [
       return h(
         "div",
         { class: "space-y-2 max-w-[18rem]" },
-        speakers.map((s, i) => {
+        speakers.map((s) => {
           const parts = [s.location, s.city, s.county].filter(
             Boolean,
           ) as string[]
-          return h("div", { key: i, class: "leading-tight" }, [
+          return h("div", { key: s.email, class: "leading-tight" }, [
             h("div", { class: "font-medium break-words" }, s.postcode ?? ""),
             h(
               "div",

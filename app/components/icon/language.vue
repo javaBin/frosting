@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import type { Language } from "@/types/session"
+
 const props = defineProps<{
-  language: string
+  language: Language
   full?: boolean
 }>()
 </script>

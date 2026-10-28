@@ -23,17 +23,18 @@ export const useSessionData = (conferenceId: string) => {
     if (sessionsLoaded.value || sessionsPending.value) return
     sessionsPending.value = true
     sessionsError.value = null
+    // Loaded is only set on success, so the next call after a failure retries
     try {
       sessions.value = await apiJson<Session[]>(
         `/api/conferences/${conferenceId}/sessions`,
       )
+      sessionsLoaded.value = true
     } catch (e) {
       sessionsError.value =
         e instanceof ApiError ? e : new ApiError(0, "Unknown error")
       sessions.value = []
     } finally {
       sessionsPending.value = false
-      sessionsLoaded.value = true
     }
   }
 

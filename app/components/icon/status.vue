@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import type { Status } from "@/types/session"
+
 const props = defineProps<{
-  status: string
+  status: Status
   full?: boolean
 }>()
 </script>
