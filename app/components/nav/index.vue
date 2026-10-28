@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const {
   conferences,
-  conferencesPending,
   conferencesError,
   conferencesLoaded,
   fetchConferences,
@@ -13,6 +12,12 @@ void fetchConferences()
 const route = useRoute()
 const conferenceCount = computed(() => conferences.value.length)
 
+// Settled once a load has either succeeded or failed; before the first request
+// starts, and while one runs, there is nothing to choose from yet
+const settled = computed(
+  () => conferencesLoaded.value || conferencesError.value !== null,
+)
+
 const currentConference = computed(() => {
   const id = route.params.conferenceId
   if (!id) return undefined
@@ -20,14 +25,24 @@ const currentConference = computed(() => {
 })
 
 const buttonLabel = computed(() => {
-  if (conferencesPending.value) return "Loading…"
+  if (!settled.value) return "Loading…"
+  if (conferencesError.value) return "Conferences unavailable"
   if (currentConference.value) return currentConference.value.name
   return "Select Conference"
 })
 
 const conferenceItems = computed(() => [
   ...(conferencesError.value
-    ? [[{ label: "Failed to load conferences", disabled: true }]]
+    ? [
+        [
+          { label: "Failed to load conferences", disabled: true },
+          {
+            label: "Retry",
+            icon: "i-lucide-rotate-cw",
+            onSelect: () => void fetchConferences(),
+          },
+        ],
+      ]
     : []),
 
   conferences.value.map((c) => ({
@@ -51,8 +66,8 @@ const conferenceItems = computed(() => [
         color="neutral"
         trailing-icon="i-lucide-chevron-down"
         :label="buttonLabel"
-        :loading="conferencesPending"
-        :disabled="conferencesPending || conferenceCount === 0"
+        :loading="!settled"
+        :disabled="!settled"
         class="font-medium"
       />
     </UDropdownMenu>
