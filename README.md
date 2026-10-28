@@ -79,9 +79,7 @@ This keeps the frontend and backend on the same origin from the browser's perspe
 
 ## Docker
 
-Multi-platform images (`linux/amd64`, `linux/arm64`) are published to `ghcr.io/javabin/frosting`.
-
-To build locally:
+The javaBin platform builds and pushes the deployed image (see CI/CD). To build locally:
 
 ```bash
 docker build -t frosting .
@@ -91,8 +89,8 @@ The image uses a multi-stage build (Node build stage, slim runtime stage) and se
 
 ## CI/CD
 
-| Trigger        | Workflow       | What it does                                                     |
-| -------------- | -------------- | ---------------------------------------------------------------- |
-| Push to `main` | `build.yaml`   | Builds and pushes multi-platform Docker image, tags as `staging` |
-| Pull request   | `pr.yaml`      | Runs `pnpm lint` and `pnpm build`                                |
-| Tag `v*`       | `release.yaml` | Promotes `staging` image to `release` and version tag            |
+| Trigger | Workflow | What it does |
+| --- | --- | --- |
+| Push to `main` | `deploy.yaml` | The javaBin platform workflow runs `pnpm build` and `pnpm test` (which is `pnpm check`: lint, format check, typecheck), then builds the image and deploys it. Nothing deploys if either fails |
+| Pull request | `deploy.yaml` | Platform build and Terraform plan, no deploy |
+| Pull request | `pr.yaml` | Runs `pnpm check` and `pnpm build` |
