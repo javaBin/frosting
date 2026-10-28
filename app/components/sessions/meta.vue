@@ -13,7 +13,12 @@ defineProps<{
     <IconStatus :status="session.status" full />
     <IconLanguage :language="session.language" full />
 
-    <UBadge v-if="lengthText" variant="subtle">
+    <UBadge
+      v-if="lengthText"
+      color="secondary"
+      variant="subtle"
+      class="font-mono"
+    >
       {{ lengthText }}
     </UBadge>
   </div>

@@ -27,7 +27,7 @@ const retryAction = [
 </script>
 
 <template>
-  <div class="mx-2">
+  <div>
     <SessionsBrowser v-if="conference" :conference="conference" />
 
     <UAlert

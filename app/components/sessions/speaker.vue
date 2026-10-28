@@ -20,27 +20,27 @@ defineProps<{
 
     <div class="mt-4 space-y-2 text-sm">
       <div v-if="speaker.email" class="flex gap-2">
-        <span class="text-muted w-24">E-mail</span>
+        <span class="text-toned w-24">E-mail</span>
         <span class="break-all">{{ speaker.email }}</span>
       </div>
 
       <div v-if="speaker.postcode" class="flex gap-2">
-        <span class="text-muted w-24">Postcode</span>
+        <span class="text-toned w-24">Postcode</span>
         <span>{{ speaker.postcode }}</span>
       </div>
 
       <div v-if="speaker.location" class="flex gap-2">
-        <span class="text-muted w-24">Location</span>
+        <span class="text-toned w-24">Location</span>
         <span class="break-words">{{ speaker.location }}</span>
       </div>
 
       <div v-if="speaker.city" class="flex gap-2">
-        <span class="text-muted w-24">City</span>
+        <span class="text-toned w-24">City</span>
         <span class="break-words">{{ speaker.city }}</span>
       </div>
 
       <div v-if="speaker.county" class="flex gap-2">
-        <span class="text-muted w-24">County</span>
+        <span class="text-toned w-24">County</span>
         <span class="break-words">{{ speaker.county }}</span>
       </div>
     </div>

@@ -38,7 +38,7 @@ const pending = computed(
 </script>
 
 <template>
-  <div class="mx-2 space-y-4">
+  <div class="space-y-4">
     <div v-if="conference" class="text-xl font-semibold">
       <NuxtLink :to="conferenceLink(conference)" class="hover:underline">
         {{ conferenceTitle(conference) }}

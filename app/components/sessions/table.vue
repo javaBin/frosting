@@ -29,7 +29,7 @@ const columns: TableColumn<Session>[] = [
         speakers.map((s) =>
           h("div", { key: s.email, class: "leading-tight" }, [
             h("div", { class: "font-medium break-words" }, s.name),
-            h("div", { class: "text-sm text-muted break-all" }, s.email),
+            h("div", { class: "text-sm text-toned break-all" }, s.email),
           ]),
         ),
       )
@@ -38,11 +38,13 @@ const columns: TableColumn<Session>[] = [
   {
     accessorKey: "title",
     header: "Title",
-    meta: { class: { td: "w-full" } },
+    // Nuxt UI cells default to whitespace-nowrap; long titles must wrap or the
+    // table overflows the window
+    meta: { class: { td: "w-full whitespace-normal" } },
     cell: ({ row }) => {
       const title = h("span", { class: "break-words" }, row.original.title)
       if (row.original.id && props.conference) {
-        return h("div", { class: "flex items-center gap-2 min-w-[28rem]" }, [
+        return h("div", { class: "flex items-start gap-2 min-w-[16rem]" }, [
           h(UButton, {
             to: sessionLink(props.conference, row.original.id),
             variant: "ghost",
@@ -55,7 +57,7 @@ const columns: TableColumn<Session>[] = [
           title,
         ])
       }
-      return h("div", { class: "min-w-[28rem]" }, [title])
+      return h("div", { class: "min-w-[16rem]" }, [title])
     },
   },
   {
@@ -115,7 +117,7 @@ const columns: TableColumn<Session>[] = [
     cell: ({ row }) =>
       h(
         "div",
-        { class: "tabular-nums whitespace-nowrap" },
+        { class: "font-mono text-sm text-secondary whitespace-nowrap" },
         row.original.length ?? "",
       ),
   },
@@ -136,7 +138,7 @@ const columns: TableColumn<Session>[] = [
             h("div", { class: "font-medium break-words" }, s.postcode ?? ""),
             h(
               "div",
-              { class: "text-sm text-muted break-words" },
+              { class: "text-sm text-toned break-words" },
               parts.join(" "),
             ),
           ])
@@ -155,7 +157,7 @@ const columns: TableColumn<Session>[] = [
       root: 'w-full overflow-x-auto',
       base: 'table-auto w-full',
       th: 'whitespace-nowrap',
-      td: 'align-top',
+      td: 'align-top text-default',
     }"
   />
 </template>

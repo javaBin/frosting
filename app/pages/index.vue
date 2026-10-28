@@ -17,11 +17,11 @@ await fetchUser()
         <div>
           <h1 class="text-4xl font-bold tracking-tight mb-4">Cupcake</h1>
 
-          <p class="text-lg text-gray-600 dark:text-gray-300">
+          <p class="text-lg text-toned">
             Access to all the JavaZone talks through the years
           </p>
 
-          <p v-if="user" class="text-lg text-gray-600 dark:text-gray-300">
+          <p v-if="user" class="text-lg text-toned">
             Welcome
             {{
               user.preferredUsername.charAt(0).toUpperCase() +
@@ -31,7 +31,7 @@ await fetchUser()
 
           <p
             v-if="user && !user.groups.includes('helter')"
-            class="mt-4 font-semibold text-red-600 dark:text-red-400"
+            class="mt-4 font-semibold text-error"
           >
             You need to be a javaBin hero to use this application &mdash; ask in
             <strong>#helter</strong> on Slack.

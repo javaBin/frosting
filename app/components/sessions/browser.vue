@@ -127,7 +127,7 @@ const rangeText = computed(() => {
 
 <template>
   <div class="space-y-4">
-    <div v-if="sessionsError" class="text-red-500">Failed to load sessions</div>
+    <div v-if="sessionsError" class="text-error">Failed to load sessions</div>
 
     <div class="flex items-center gap-3">
       <UInput
@@ -149,7 +149,7 @@ const rangeText = computed(() => {
     <SessionsFilters v-model="filters" />
 
     <div class="flex items-center justify-between gap-3">
-      <div class="text-sm text-muted">{{ rangeText }}</div>
+      <div class="text-sm text-toned">{{ rangeText }}</div>
       <UPagination
         v-model:page="page"
         :total="total"

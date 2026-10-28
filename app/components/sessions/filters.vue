@@ -37,7 +37,7 @@ function clearAll() {
 </script>
 
 <template>
-  <UCollapsible v-model:open="open" class="rounded-lg border border-default/60">
+  <UCollapsible v-model:open="open" class="rounded-lg border border-default">
     <!-- trigger -->
     <UButton
       variant="ghost"
@@ -122,7 +122,7 @@ function clearAll() {
     </UButton>
 
     <template #content>
-      <div class="p-3 border-t border-default/60">
+      <div class="p-3 border-t border-default">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           <UCard>
             <template #header>Format</template>
