@@ -33,14 +33,14 @@ There are no unit tests in this project.
 - Logic lives in `app/composables/useAuth.ts`
 
 ### API layer
-- `app/composables/useApiFetch.ts` — wraps `$fetch` with Bearer token injection; on 401, silently refreshes token and retries
-- `server/middleware/proxy.ts` — Nitro/h3 server middleware that transparently proxies `/api/*`, `/login`, and `/refresh` to the Cupcake backend, keeping everything same-origin to avoid CORS
+- `app/composables/useApiFetch.ts` — `apiFetch`/`apiJson` wrap `fetch` with Bearer token injection; on 401, refresh the token and retry once
+- `server/middleware/proxy.ts` — Nitro/h3 server middleware that proxies `/api/*` (except `/api/_nuxt_icon`) to the Cupcake backend, keeping everything same-origin to avoid CORS. It streams the body and gzips JSON for clients that accept it: Node's `fetch` decodes the backend's gzip, so without this the browser would get the session lists uncompressed (~1.3 MB instead of ~450 KB)
 
 ### State management
 - No Pinia — uses Nuxt `useState()` composables
 - `app/composables/conferences.ts` — conference list
-- `app/composables/sessions.ts` — sessions per conference
-- `app/composables/useSessionData.ts` — single session detail
+- `app/composables/useSessionData.ts` — sessions per conference (state keyed by conference id)
+- `app/composables/sessions.ts` — session helpers (links, lookup, duration formatting); no state
 - `app/composables/useUser.ts` — current user from `/api/me`
 - Each composable uses `Pending`/`Loaded` flags to prevent duplicate API calls
 
@@ -55,7 +55,7 @@ There are no unit tests in this project.
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `CUPCAKE_BACKEND` | `http://127.0.0.1:8080` (dev) / `https://cupcake-backend.java.no` (prod) | Backend URL for server-side proxy |
+| `CUPCAKE_BACKEND` | `http://127.0.0.1:8080` (dev) / `https://cupcake-backend.javazone.no` (prod) | Backend URL for server-side proxy |
 | `CUPCAKE_FRONTEND` | `localhost` | Hostname for Vite `allowedHosts` |
 | `NUXT_PUBLIC_OIDC_AUTHORITY` | Cognito internal pool issuer | OIDC issuer URL |
 | `NUXT_PUBLIC_OIDC_CLIENT_ID` | empty | OIDC client ID |
