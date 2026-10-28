@@ -1,35 +1,19 @@
 <script setup lang="ts">
 import type { Filters } from "@/types/filters"
-import type { Format, Language, Status } from "@/types/session"
-
-type FilterItem<T> = { label: string; value: T | undefined }
+import {
+  filterItems,
+  formatDisplay,
+  languageDisplay,
+  statusDisplay,
+} from "~/utils/sessionDisplay"
 
 const model = defineModel<Filters>({ required: true })
 
 const open = ref(false)
 
-const formatItems: FilterItem<Format>[] = [
-  { label: "Any", value: undefined },
-  { label: "Presentation", value: "PRESENTATION" },
-  { label: "Lightning Talk", value: "LIGHTNING_TALK" },
-  { label: "Workshop", value: "WORKSHOP" },
-  { label: "Panel Debate", value: "PANEL" },
-]
-
-const statusItems: FilterItem<Status>[] = [
-  { label: "Any", value: undefined },
-  { label: "Approved", value: "APPROVED" },
-  { label: "Submitted", value: "SUBMITTED" },
-  { label: "Rejected", value: "REJECTED" },
-  { label: "Historic", value: "HISTORIC" },
-  { label: "Draft", value: "DRAFT" },
-]
-
-const languageItems: FilterItem<Language>[] = [
-  { label: "Any", value: undefined },
-  { label: "English", value: "ENGLISH" },
-  { label: "Norwegian", value: "NORWEGIAN" },
-]
+const formatItems = filterItems(formatDisplay)
+const statusItems = filterItems(statusDisplay)
+const languageItems = filterItems(languageDisplay)
 
 const hasAnyFilters = computed(() =>
   Boolean(

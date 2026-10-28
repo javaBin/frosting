@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Language } from "@/types/session"
+import { languageDisplay } from "~/utils/sessionDisplay"
 
 const props = defineProps<{
   language: Language
@@ -9,19 +10,6 @@ const props = defineProps<{
 
 <template>
   <span class="px-2">
-    <IconTooltip
-      :value="props.language"
-      select="ENGLISH"
-      description="English"
-      name="openmoji:flag-united-kingdom"
-      :full="props.full"
-    />
-    <IconTooltip
-      :value="props.language"
-      select="NORWEGIAN"
-      description="Norwegian"
-      name="openmoji:flag-norway"
-      :full="props.full"
-    />
+    <IconTooltip :spec="languageDisplay[props.language]" :full="props.full" />
   </span>
 </template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Format } from "@/types/session"
+import { formatDisplay } from "~/utils/sessionDisplay"
 
 const props = defineProps<{
   format: Format
@@ -9,33 +10,6 @@ const props = defineProps<{
 
 <template>
   <span class="px-2">
-    <IconTooltip
-      :value="props.format"
-      select="LIGHTNING_TALK"
-      description="Lightning Talk"
-      name="carbon:lightning"
-      :full="props.full"
-    />
-    <IconTooltip
-      :value="props.format"
-      select="WORKSHOP"
-      description="Workshop"
-      name="carbon:laptop"
-      :full="props.full"
-    />
-    <IconTooltip
-      :value="props.format"
-      select="PRESENTATION"
-      description="Presentation"
-      name="carbon:group-presentation"
-      :full="props.full"
-    />
-    <IconTooltip
-      :value="props.format"
-      select="PANEL"
-      description="Panel Debate"
-      name="carbon:forum"
-      :full="props.full"
-    />
+    <IconTooltip :spec="formatDisplay[props.format]" :full="props.full" />
   </span>
 </template>

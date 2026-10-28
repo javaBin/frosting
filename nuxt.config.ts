@@ -37,6 +37,12 @@ export default defineNuxtConfig({
     serverBundle: {
       collections: ["carbon", "lucide", "logos", "openmoji"],
     },
+    // Ship the icons the source uses with the app instead of fetching each one at
+    // runtime. The default scan skips .ts files, where app/utils/sessionDisplay.ts
+    // names the session icons.
+    clientBundle: {
+      scan: { globInclude: ["**/*.{vue,ts}"] },
+    },
   },
 
   css: ["~/assets/css/main.css"],

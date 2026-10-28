@@ -1,24 +1,20 @@
 <script setup lang="ts">
-const tooltip = defineProps<{
-  value: string
-  select: string
-  description: string
-  name: string
+import type { DisplaySpec } from "~/utils/sessionDisplay"
+
+const props = defineProps<{
+  spec?: DisplaySpec
   full?: boolean
 }>()
 </script>
 
 <template>
-  <span
-    v-if="tooltip.value === tooltip.select"
-    class="inline-flex items-center gap-1.5"
-  >
-    <UTooltip :text="tooltip.description">
-      <Icon :name="tooltip.name" class="cursor-help shrink-0" />
+  <span v-if="props.spec" class="inline-flex items-center gap-1.5">
+    <UTooltip :text="props.spec.description">
+      <Icon :name="props.spec.icon" class="cursor-help shrink-0" />
     </UTooltip>
 
-    <span v-if="tooltip.full" class="text-sm">
-      {{ tooltip.description }}
+    <span v-if="props.full" class="text-sm">
+      {{ props.spec.description }}
     </span>
   </span>
 </template>

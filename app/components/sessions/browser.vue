@@ -23,49 +23,69 @@ const filters = reactive<Filters>({
   county: undefined,
 })
 
-function sessionMatchesSearch(session: Session, q: string): boolean {
-  const needle = q.toLowerCase().trim()
-  if (!needle) return true
+const TEXT_QUERY_DEBOUNCE_MS = 200
 
-  const text = [
-    session.title ?? "",
-    session.format ?? "",
-    session.status ?? "",
-    session.language ?? "",
-    session.length !== undefined ? String(session.length) : "",
-    ...(session.speakers?.map((s) => s.name ?? "") ?? []),
-    ...(session.speakers?.map((s) => s.city ?? "") ?? []),
-    ...(session.speakers?.map((s) => s.county ?? "") ?? []),
-    ...(session.speakers?.map((s) => s.location ?? "") ?? []),
+type TextQuery = { search: string; city: string; county: string }
+
+const readTextQuery = (): TextQuery => ({
+  search: search.value.toLowerCase().trim(),
+  city: (filters.city ?? "").trim().toUpperCase(),
+  county: (filters.county ?? "").trim().toUpperCase(),
+})
+
+// Typed fields apply after a pause in typing, so the table re-renders once per
+// query rather than once per keystroke. The select filters apply at once.
+const textQuery = ref<TextQuery>(readTextQuery())
+let textQueryTimer: ReturnType<typeof setTimeout> | undefined
+
+watch([search, () => filters.city, () => filters.county], () => {
+  clearTimeout(textQueryTimer)
+  textQueryTimer = setTimeout(() => {
+    textQuery.value = readTextQuery()
+  }, TEXT_QUERY_DEBOUNCE_MS)
+})
+onBeforeUnmount(() => clearTimeout(textQueryTimer))
+
+const searchableText = (session: Session): string =>
+  [
+    session.title,
+    session.format,
+    session.status,
+    session.language,
+    session.length ?? "",
+    ...session.speakers.map((s) => s.name),
+    ...session.speakers.map((s) => s.city ?? ""),
+    ...session.speakers.map((s) => s.county ?? ""),
+    ...session.speakers.map((s) => s.location ?? ""),
   ]
     .join(" ")
     .toLowerCase()
 
-  return text.includes(needle)
-}
+// Built once per sessions load instead of once per session per query
+const searchTextById = computed(
+  () => new Map(sessions.value.map((s) => [s.id, searchableText(s)])),
+)
 
 const filteredSessions = computed(() => {
-  const all = sessions.value
-  const cityQ = (filters.city ?? "").trim().toUpperCase()
-  const countyQ = (filters.county ?? "").trim().toUpperCase()
+  const { search: needle, city, county } = textQuery.value
+  const { format, status, language } = filters
+  const searchText = searchTextById.value
 
-  return all
-    .filter((s) => !filters.format || s.format === filters.format)
-    .filter((s) => !filters.status || s.status === filters.status)
-    .filter((s) => !filters.language || s.language === filters.language)
-    .filter((s) => {
-      if (!cityQ) return true
-      return (s.speakers ?? []).some((sp) =>
-        (sp.city ?? "").toUpperCase().includes(cityQ),
-      )
-    })
-    .filter((s) => {
-      if (!countyQ) return true
-      return (s.speakers ?? []).some((sp) =>
-        (sp.county ?? "").toUpperCase().includes(countyQ),
-      )
-    })
-    .filter((s) => sessionMatchesSearch(s, search.value))
+  return sessions.value.filter(
+    (s) =>
+      (!format || s.format === format) &&
+      (!status || s.status === status) &&
+      (!language || s.language === language) &&
+      (!city ||
+        s.speakers.some((sp) =>
+          (sp.city ?? "").toUpperCase().includes(city),
+        )) &&
+      (!county ||
+        s.speakers.some((sp) =>
+          (sp.county ?? "").toUpperCase().includes(county),
+        )) &&
+      (!needle || (searchText.get(s.id) ?? "").includes(needle)),
+  )
 })
 
 const total = computed(() => filteredSessions.value.length)
@@ -75,12 +95,10 @@ const totalPages = computed(() =>
 
 watch(
   [
-    search,
+    textQuery,
     () => filters.format,
     () => filters.status,
     () => filters.language,
-    () => filters.city,
-    () => filters.county,
     pageSize,
   ],
   () => {
