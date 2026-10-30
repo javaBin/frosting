@@ -32,6 +32,17 @@ module "routing" {
   deregistration_delay   = 30
 }
 
+module "network" {
+  source = "git::https://github.com/javaBin/platform//terraform/modules/app-network?ref=main"
+
+  name        = "cupcake"
+  team        = "cupcake"
+  project     = "javabin"
+  vpc_id      = module.platform.vpc_id
+  port        = 3000
+  alb_ingress = true
+}
+
 module "auth" {
   source = "git::https://github.com/javaBin/platform//terraform/modules/cognito-app-client?ref=main"
 
@@ -70,7 +81,8 @@ module "service" {
   execution_role_arn       = module.platform.execution_role_arn
   task_role_arn            = module.task_role.role_arn
   subnet_ids               = module.platform.private_subnet_ids
-  security_group_ids       = [module.platform.ecs_tasks_security_group_id]
+  security_group_ids       = [module.network.security_group_id]
+  service_registry_arns    = [module.network.registry_arn]
   region                   = "eu-central-1"
   container_user           = "1000"
   readonly_root_filesystem = true
@@ -82,13 +94,15 @@ module "service" {
     COGNITO_ISSUER_URL             = module.auth.issuer_url
     COGNITO_WELL_KNOWN_URL         = module.auth.well_known_url
     COGNITO_GROUPS                 = "helter"
+    COGNITO_EXTRA_AUTH_PARAMS      = "prompt=select_account"
     NUXT_PUBLIC_OIDC_AUTHORITY     = module.auth.issuer_url
     NUXT_PUBLIC_OIDC_LOGOUT_DOMAIN = module.auth.user_pool_domain
   }
   secrets = {
-    COGNITO_CLIENT_ID          = module.auth.client_id_arn
-    COGNITO_IDENTITY_PROVIDER  = module.auth.identity_provider_arn
-    NUXT_PUBLIC_OIDC_CLIENT_ID = module.auth.client_id_arn
+    COGNITO_CLIENT_ID                  = module.auth.client_id_arn
+    COGNITO_IDENTITY_PROVIDER          = module.auth.identity_provider_arn
+    NUXT_PUBLIC_OIDC_CLIENT_ID         = module.auth.client_id_arn
+    NUXT_PUBLIC_OIDC_IDENTITY_PROVIDER = module.auth.identity_provider_arn
   }
 }
 
