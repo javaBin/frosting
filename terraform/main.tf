@@ -94,13 +94,15 @@ module "service" {
     COGNITO_ISSUER_URL             = module.auth.issuer_url
     COGNITO_WELL_KNOWN_URL         = module.auth.well_known_url
     COGNITO_GROUPS                 = "helter"
+    COGNITO_EXTRA_AUTH_PARAMS      = "prompt=select_account"
     NUXT_PUBLIC_OIDC_AUTHORITY     = module.auth.issuer_url
     NUXT_PUBLIC_OIDC_LOGOUT_DOMAIN = module.auth.user_pool_domain
   }
   secrets = {
-    COGNITO_CLIENT_ID          = module.auth.client_id_arn
-    COGNITO_IDENTITY_PROVIDER  = module.auth.identity_provider_arn
-    NUXT_PUBLIC_OIDC_CLIENT_ID = module.auth.client_id_arn
+    COGNITO_CLIENT_ID                  = module.auth.client_id_arn
+    COGNITO_IDENTITY_PROVIDER          = module.auth.identity_provider_arn
+    NUXT_PUBLIC_OIDC_CLIENT_ID         = module.auth.client_id_arn
+    NUXT_PUBLIC_OIDC_IDENTITY_PROVIDER = module.auth.identity_provider_arn
   }
 }
 
