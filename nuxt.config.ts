@@ -26,6 +26,10 @@ export default defineNuxtConfig({
       // http://localhost:3000/ so local login works against the same pool
       oidcClientId: "70picsu9i2ubl8vpu4p587isqa",
       oidcLogoutDomain: "javabin-internal.auth.eu-central-1.amazoncognito.com",
+      // Cognito IdP to sign in through (platform COGNITO_IDENTITY_PROVIDER).
+      // Empty locally: Cognito then picks the client's only IdP, but drops
+      // prompt, so the Google account chooser only shows when this is set.
+      oidcIdentityProvider: "",
     },
   },
 

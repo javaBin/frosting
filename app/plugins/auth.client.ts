@@ -17,6 +17,7 @@ export default defineNuxtPlugin(async () => {
     oidcAuthority: config.oidcAuthority,
     oidcClientId: config.oidcClientId,
     oidcLogoutDomain: config.oidcLogoutDomain,
+    oidcIdentityProvider: config.oidcIdentityProvider,
   })
 
   if (!config.authEnabled) return

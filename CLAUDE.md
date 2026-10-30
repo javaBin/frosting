@@ -60,6 +60,7 @@ There are no unit tests in this project.
 | `CUPCAKE_FRONTEND` | `localhost` | Hostname for Vite `allowedHosts` |
 | `NUXT_PUBLIC_OIDC_AUTHORITY` | Cognito internal pool issuer | OIDC issuer URL |
 | `NUXT_PUBLIC_OIDC_CLIENT_ID` | prod public Cognito client | OIDC client ID |
+| `NUXT_PUBLIC_OIDC_IDENTITY_PROVIDER` | empty | Cognito IdP for sign-in (from platform `COGNITO_IDENTITY_PROVIDER`); needed for Google's account chooser |
 | `JWT_ENABLED` | unset | `true` in `local.env` turns login on under `pnpm dev` |
 
 Local dev needs no OIDC overrides either way; the defaults are the prod Cognito values.

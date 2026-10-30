@@ -30,6 +30,7 @@ export type AuthSettings = {
   oidcAuthority: string
   oidcClientId: string
   oidcLogoutDomain: string
+  oidcIdentityProvider: string
 }
 
 let settings: AuthSettings | null = null
@@ -52,7 +53,7 @@ let _userManager: UserManager | null = null
 
 function getUserManager(): UserManager {
   if (!_userManager) {
-    const { oidcAuthority, oidcClientId } = authSettings()
+    const { oidcAuthority, oidcClientId, oidcIdentityProvider } = authSettings()
     const origin = window.location.origin
     _userManager = new UserManager({
       authority: oidcAuthority,
@@ -65,9 +66,14 @@ function getUserManager(): UserManager {
       loadUserInfo: false,
       // Ask Google for its account chooser, so a browser signed in to a
       // personal Google account can switch to the @java.no one instead of
-      // being refused. Cognito forwards prompt to Google on managed login
-      // (the platform's COGNITO_EXTRA_AUTH_PARAMS).
-      extraQueryParams: { prompt: "select_account" },
+      // being refused (the platform's COGNITO_EXTRA_AUTH_PARAMS). Managed
+      // login forwards prompt only when identity_provider names the IdP.
+      extraQueryParams: {
+        prompt: "select_account",
+        ...(oidcIdentityProvider
+          ? { identity_provider: oidcIdentityProvider }
+          : {}),
+      },
     })
   }
   return _userManager
