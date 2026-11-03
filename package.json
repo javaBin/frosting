@@ -17,7 +17,7 @@
     "test": "pnpm check"
   },
   "dependencies": {
-    "@artmizu/nuxt-prometheus": "3.0.4",
+    "@artmizu/nuxt-prometheus": "3.0.5",
     "@iconify-json/carbon": "1.2.29",
     "@iconify-json/logos": "1.2.18",
     "@iconify-json/lucide": "1.2.149",
