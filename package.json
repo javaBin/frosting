@@ -17,22 +17,22 @@
     "test": "pnpm check"
   },
   "dependencies": {
-    "@artmizu/nuxt-prometheus": "3.0.4",
-    "@iconify-json/carbon": "1.2.29",
-    "@iconify-json/logos": "1.2.18",
-    "@iconify-json/lucide": "1.2.149",
-    "@iconify-json/openmoji": "1.2.29",
+    "@artmizu/nuxt-prometheus": "4.1.0",
+    "@iconify-json/carbon": "1.2.30",
+    "@iconify-json/logos": "1.2.19",
+    "@iconify-json/lucide": "1.2.152",
+    "@iconify-json/openmoji": "1.2.31",
     "@nuxt/eslint": "1.17.0",
     "@nuxt/icon": "2.6.2",
     "@nuxt/ui": "4.12.0",
     "eslint": "10.14.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.7",
-    "nuxt": "4.6.3",
+    "nuxt": "4.6.4",
     "oidc-client-ts": "3.5.0",
     "prettier": "3.9.10",
     "typescript": "6.0.3",
-    "vue": "3.5.44",
+    "vue": "3.5.45",
     "vue-router": "5.4.0"
   },
   "devDependencies": {
@@ -40,11 +40,11 @@
     "debug": "4.4.3",
     "husky": "9.1.7",
     "lint-staged": "17.6.0",
-    "tailwindcss": "4.3.3",
+    "tailwindcss": "4.3.5",
     "vue-tsc": "3.3.14"
   },
   "lint-staged": {
     "*.{js,ts,vue}": "pnpm lint:fix"
   },
-  "packageManager": "pnpm@12.16.0"
+  "packageManager": "pnpm@12.18.0"
 }

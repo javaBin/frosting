@@ -35,6 +35,10 @@ export default defineNuxtConfig({
 
   ssr: false,
   devtools: { enabled: true },
+  // Nuxt 4.6.4 resolves an unset devServer.host to {} instead of undefined,
+  // which crashes `nuxt dev` (options.hostname.toLowerCase is not a function).
+  // Drop this once a fixed @nuxt/schema lands; --host / NUXT_HOST still override it.
+  devServer: { host: "localhost" },
   modules: [
     "@nuxt/ui",
     "@nuxt/eslint",
